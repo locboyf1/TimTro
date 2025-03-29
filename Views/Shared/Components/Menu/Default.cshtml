@@ -1,0 +1,17 @@
+﻿@model List<TbMenu>
+@foreach (var item in Model)
+{
+
+
+    if (item.Alias == ViewBag.Active)
+    {
+        <li class="active"><a href="@item.Url">@item.Title</a></li>
+    }
+    else
+    {
+        <li><a href="@item.Url">@item.Title</a></li>
+    }
+
+
+
+}
