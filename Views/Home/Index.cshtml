@@ -1,4 +1,5 @@
-﻿@{
+﻿@model List<TbHostel>
+@{
     ViewBag.Title = "Azenta - quảng bá và tìm trọ trực tuyến";
     ViewBag.Active = "trangchu";
     var provinces = ViewBag.Provinces as string;
@@ -139,9 +140,9 @@
                         House For Sell
                     </div>
                 </div>
-                <form action="#" class="filter-form">
+                <form asp-action="index" asp-controller="Hostel" class="filter-form" method="post">
                     <div class="first-row">
-                        <select id="province">
+                        <select id="province" name="province">
                             <option value="">Chọn tỉnh/thành phố</option>
                         </select>
 
@@ -153,33 +154,33 @@
                             <option value="">Chọn phường/xã</option>
                         </select>
 
-                        <select>
-                            <option value="">Khép kín/không</option>
+                        <select name="IsPrivate">
+                            <option value="0">Khép kín/không</option>
                             <option value="1">Khép kín</option>
-                            <option value="0">Không khép kín</option>
+                            <option value="2">Không khép kín</option>
                         </select>
                     </div>
                     <div class="second-row">
-                        <select>
-                            <option value="">Có/không chỗ để xe</option>
-                            <option value="0">Không có chỗ để xe</option>
-                            <option value="">Có chỗ để xe</option>
+                        <select name="IsHasParkingLot">
+                            <option value="0">Có/không chỗ để xe</option>
+                            <option value="1">Có chỗ để xe</option>
+                            <option value="2">Không có chỗ để xe</option>
                         </select>
                         <div class="price-range-wrap">
                             <div class="price-text">
                                 <label for="priceRange">Giá:</label>
-                                <input type="text" id="priceRange" style="width:200px" readonly>
+                                <input type="text" id="priceRange" name="priceRange" style="width:200px" readonly>
                             </div>
-                            <div id="price-range" class="slider"></div> 
+                            <div id="price-range" class="slider"></div>
                         </div>
                         <div class="room-size-range">
                             <div class="price-text">
                                 <label for="roomsizeRange">Diện tích:</label>
-                                <input type="text" id="roomsizeRange" style="width:165px" readonly>
+                                <input type="text" id="roomsizeRange" name="areaRange" style="width:165px" readonly>
                             </div>
                             <div id="roomsize-range" class="slider"></div>
                         </div>
-                        <button type="button" class="search-btn">Search</button>
+                        <button type="submit" class="search-btn">Tìm kiếm</button>
                     </div>
                 </form>
             </div>
@@ -237,53 +238,69 @@
         </div>
         <div class="row">
             <div class="feature-carousel owl-carousel">
-                @* @foreach() *@
-                <div class="col-lg-4">
-                    <div class="feature-item">
-                        <div class="fi-pic set-bg" data-setbg="/assets/img/feature/feature-1.jpg">
-                            <div class="pic-tag">
-                                <div class="f-text">feauture</div>
-                                <div class="s-text">For Sale</div>
-                            </div>
-                            <div class="feature-author">
-                                <div class="fa-pic">
-                                    <img src="/assets/img/feature/f-author-1.jpg" alt="">
+                @foreach (var item in Model)
+                {
+                    <div class="col-lg-4">
+                        <div class="feature-item">
+                            <div class="fi-pic set-bg" data-setbg="@item.TbImageHostels.First().Path">
+                                <div class="pic-tag">
+                                    @if (!item.IsAvailable)
+                                    {
+                                        <div class="f-text">Hết phòng</div>
+                                    }
+                                    else
+                                    {
+                                        <div class="s-text">Còn phòng</div>
+                                    }
+
                                 </div>
-                                <div class="fa-text">
-                                    <span>Rena Simmons</span>
+                                <div class="feature-author">
+                                    <div class="fa-pic">
+                                        <img src="@item.IduserNavigation.Avatar" alt="">
+                                    </div>
+                                    <div class="fa-text">
+                                        <span>@item.IduserNavigation.Name</span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="fi-text">
-                            <div class="inside-text">
-                                <h4>French Riviera Villa</h4>
-                                <ul>
-                                    <li><i class="fa fa-map-marker"></i> 180 York Road, London, UK</li>
-                                    <li><i class="fa fa-tag"></i> Villa</li>
+                            <div class="fi-text">
+                                <div class="inside-text">
+                                    <h4>@item.Title</h4>
+                                    <ul>
+                                        <li><i class="fa fa-map-marker"></i>@item.Ward, @item.District, @item.Province</li>
+                                        @if (item.IsPrivate)
+                                        {
+                                            <li><i class="fa fa-tag"></i>Khép kín</li>
+                                        }
+                                        else
+                                        {
+                                            <li><i class="fa fa-tag"></i>Không khép kín</li>
+                                        }
+                                    </ul>
+                                    <h5 class="price">@item.Price<span>/tháng</span></h5>
+                                </div>
+                                <ul class="room-features">
+                                    <li>
+                                        <i class="fa fa-arrows"></i>
+                                        <p>@item.Area m²</p>
+                                    </li>
+
+                                    <li>
+                                        <i class="fa fa-motorcycle"></i>
+                                        @if (item.IsHasParkingLot)
+                                        {
+                                            <p>Có chỗ để xe</p>
+                                        }
+                                        else
+                                        {
+                                            <p>Không có chỗ để xe</p>
+                                        }
+                                    </li>
                                 </ul>
-                                <h5 class="price">$5900<span>/month</span></h5>
                             </div>
-                            <ul class="room-features">
-                                <li>
-                                    <i class="fa fa-arrows"></i>
-                                    <p>780 sqft</p>
-                                </li>
-                                <li>
-                                    <i class="fa fa-bed"></i>
-                                    <p>4</p>
-                                </li>
-                                <li>
-                                    <i class="fa fa-bath"></i>
-                                    <p>3</p>
-                                </li>
-                                <li>
-                                    <i class="fa fa-car"></i>
-                                    <p>2</p>
-                                </li>
-                            </ul>
                         </div>
                     </div>
-                </div>
+                }
 
             </div>
         </div>

@@ -1,0 +1,74 @@
+﻿@using TimTro.Utilities;
+<div class="loginpage">
+    <div class="wrapper">
+        <div class="title-text">
+            <div class="title login">Đăng nhập</div>
+            <div class="title signup">Đăng ký</div>
+        </div>
+        <div class="form-container">
+            <div class="slide-controls">
+                <input type="radio" name="slide" id="login" checked>
+                <input type="radio" name="slide" id="signup">
+                <label for="login" class="slide login">Đăng nhập</label>
+                <label for="signup" class="slide signup">Đăng ký</label>
+                <div class="slider-tab"></div>
+            </div>
+            <div class="form-inner">
+                <form asp-action="Login" class="login">
+                    <div class="field">
+                        <input type="text" placeholder="Số điện thoại" name="phone" required>
+                    </div>
+                    <div class="field">
+                        <input type="password" placeholder="Mật khẩu" name="password" required>
+                    </div>
+                    <div class="pass-link"><a href="#">Quên mật khẩu?</a></div>
+                    <div class="field btn">
+                        <div class="btn-layer"></div>
+                        <input type="submit" value="Đăng nhập">
+                    </div>
+                    <div class="signup-link">Chưa có tài khoản? <a href="">Đăng ký ngay</a></div>
+                    <h5 style="color: red">@Functions.usermessage</h5>
+                </form>
+                <form asp-action="Register" class="signup">
+                    <div class="field">
+                        <input type="text" name="phone" placeholder="Số điện thoại" required>
+                    </div>
+                    <div class="field">
+                        <input type="text" placeholder="Họ tên" name="name" required>
+                    </div>
+                    <div class="field">
+                        <input type="password" name="password" placeholder="Mật khẩu" required>
+                    </div>
+
+                    <div class="field btn">
+                        <div class="btn-layer"></div>
+                        <input type="submit" value="Đăng ký">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        const loginText = document.querySelector(".title-text .login");
+        const loginForm = document.querySelector("form.login");
+        const loginBtn = document.querySelector("label.login");
+        const signupBtn = document.querySelector("label.signup");
+        const signupLink = document.querySelector("form .signup-link a");
+        signupBtn.onclick = (()=>{
+          loginForm.style.marginLeft = "-50%";
+          loginText.style.marginLeft = "-50%";
+        });
+        loginBtn.onclick = (()=>{
+          loginForm.style.marginLeft = "0%";
+          loginText.style.marginLeft = "0%";
+        });
+        signupLink.onclick = (()=>{
+          signupBtn.click();
+          return false;
+        });
+    </script>
+
+}

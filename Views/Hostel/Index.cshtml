@@ -1,0 +1,223 @@
+﻿@model List<TbHostel>
+@{
+
+}
+<!-- Map Section Begin -->
+<div class="map">
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2942.5524090066037!2d-71.10245469994108!3d42.47980730490846!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89e3748250c43a43%3A0xe1b9879a5e9b6657!2sWinter%20Street%20Public%20Parking%20Lot!5e0!3m2!1sen!2sbd!4v1577299251173!5m2!1sen!2sbd"
+    height="500" style="border:0;" allowfullscreen=""></iframe>
+    <div class="icon-list">
+        <div class="icon icon-1">
+            1
+        </div>
+        <div class="icon icon-2">
+            2
+        </div>
+        <div class="icon icon-3">
+            3
+        </div>
+        <div class="icon icon-4">
+            4
+        </div>
+        <div class="icon icon-5">
+            5
+        </div>
+    </div>
+</div>
+<!-- Map Section End -->
+<!-- Property Section Begin -->
+<section class="property-section spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="property-sidebar">
+                    <h4>Search Property</h4>
+                    <form action="#" class="sidebar-search">
+
+                        <select id="province" name="province">
+                            <option value="">Chọn tỉnh/thành phố</option>
+                        </select>
+
+                        <select id="district">
+                            <option value="">Chọn quận/huyện</option>
+                        </select>
+
+                        <select id="ward">
+                            <option value="">Chọn phường/xã</option>
+                        </select>
+
+                        <select>
+                            <option value="">Khép kín/không</option>
+                            <option value="1">Khép kín</option>
+                            <option value="0">Không khép kín</option>
+                        </select>
+                        <select>
+                            <option value="">Có/không chỗ để xe</option>
+                            <option value="0">Không có chỗ để xe</option>
+                            <option value="">Có chỗ để xe</option>
+                        </select>
+                        <div class="price-range-wrap">
+                            <div class="price-text">
+                                <label for="priceRange">Giá:</label>
+                                <input type="text" id="priceRange" style="width:200px" readonly>
+                            </div>
+                            <div id="price-range" class="slider"></div>
+                        </div>
+                        <div class="room-size-range">
+                            <div class="price-text">
+                                <label for="roomsizeRange">Diện tích:</label>
+                                <input type="text" id="roomsizeRange" style="width:165px" readonly>
+                            </div>
+                            <div id="roomsize-range" class="slider"></div>
+                        </div>
+                        <button type="submit" class="search-btn">Search Property</button>
+                    </form>
+                    <div class="best-agents">
+                        <h4>Best Agents</h4>
+                        <a href="#" class="ba-item">
+                            <div class="ba-pic">
+                                <img src="assets/img/properties/best-agent-1.jpg" alt="">
+                            </div>
+                            <div class="ba-text">
+                                <h5>Lester Bradley</h5>
+                                <span>Company Agents</span>
+                                <p class="property-items">6 property </p>
+                            </div>
+                        </a>
+                        <a href="#" class="ba-item">
+                            <div class="ba-pic">
+                                <img src="assets/img/properties/best-agent-2.jpg" alt="">
+                            </div>
+                            <div class="ba-text">
+                                <h5>Janie Blair</h5>
+                                <span>Company Agents</span>
+                                <p class="property-items">6 property </p>
+                            </div>
+                        </a>
+                        <a href="#" class="ba-item">
+                            <div class="ba-pic">
+                                <img src="assets/img/properties/best-agent-3.jpg" alt="">
+                            </div>
+                            <div class="ba-text">
+                                <h5>Sophia Cole</h5>
+                                <span>Marketing & Ceo</span>
+                                <p class="property-items">6 property </p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9">
+                <h4 class="property-title">Property</h4>
+                <div class="property-list">
+                    @foreach (var item in Model)
+                    {
+                        <div class="single-property-item">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="property-pic">
+                                        <img src="@item.TbImageHostels.First().Path" alt="">
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="property-text">
+                                        @if (item.IsAvailable)
+                                        {
+                                            <div class="s-text">Còn phòng</div>
+                                        }
+                                        else
+                                        {
+                                            <div class="f-text">Hết phòng</div>
+                                        }
+                                        <h5 class="r-title">@item.Title</h5>
+                                        <div class="room-price">
+                                            <span>Giá thuê:</span>
+                                            <h5>@item.Price VNĐ/Tháng</h5>
+                                        </div>
+                                        <div class="properties-location">
+                                            <i class="icon_pin"></i> @item.Ward, @item.District, @item.Province
+
+                                        </div>
+                                        @if(item.IsPrivate){
+                                            <div class="properties-location">
+                                                <i class="fa fa-tag"></i> Khép kín
+
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="properties-location">
+                                                <i class="fa fa-tag"></i> Không khép kín
+
+                                            </div>
+                                        }
+
+                                        <ul class="room-features">
+                                            <li>
+                                                <i class="fa fa-arrows"></i>
+                                                <p>@item.Area m²</p>
+                                            </li>
+                                            <li>
+                                                <i class="fa fa-motorcycle"></i>
+                                                @if (item.IsHasParkingLot)
+                                                {
+                                                    <p>Có chỗ để xe</p>
+                                                }
+                                                else
+                                                {
+                                                    <p>Không có chỗ để xe</p>
+                                                }
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                </div>
+                <div class="property-pagination">
+                    @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                    {
+                        <a href="/Hostel/Index?page=@i" class="@(ViewBag.page == i ? "active" : "")">@i</a>
+                    }
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Property Section End -->
+<!-- Partner Carousel Section Begin -->
+<div class="partner-section">
+    <div class="container">
+        <div class="partner-carousel owl-carousel">
+            <a href="#" class="partner-logo">
+                <div class="partner-logo-tablecell">
+                    <img src="assets/img/partner/partner-1.png" alt="">
+                </div>
+            </a>
+            <a href="#" class="partner-logo">
+                <div class="partner-logo-tablecell">
+                    <img src="assets/img/partner/partner-2.png" alt="">
+                </div>
+            </a>
+            <a href="#" class="partner-logo">
+                <div class="partner-logo-tablecell">
+                    <img src="assets/img/partner/partner-3.png" alt="">
+                </div>
+            </a>
+            <a href="#" class="partner-logo">
+                <div class="partner-logo-tablecell">
+                    <img src="assets/img/partner/partner-4.png" alt="">
+                </div>
+            </a>
+            <a href="#" class="partner-logo">
+                <div class="partner-logo-tablecell">
+                    <img src="assets/img/partner/partner-5.png" alt="">
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+<!-- Partner Carousel Section End -->

@@ -1,0 +1,238 @@
+﻿@model TbBlog
+<!-- Blog Details Hero Section Begin -->
+<section class="blog-details-hero set-bg" data-setbg="@Model.Image">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="bd-hero-text">
+                    <span>Bài viết</span>
+                    <h2>@Model.Title</h2>
+                    <ul>
+                        <li><i class="fa fa-user"></i>@Model.IdadminNavigation.Name</li>
+                        <li><i class="fa fa-clock-o"></i>@Model.Time.Value.ToString("hh:mm đ/MM/yyyy")</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--  Blog Details Hero Section Begin -->
+<!-- Blog Details Section Begin -->
+<section class="blog-details-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-1 offset-lg-1">
+                <div class="blog-details-social">
+                    <h6>Chia sẻ</h6>
+                    <div class="social-list">
+                        <a href="#"><i class="fa fa-facebook"></i></a>
+                        <a href="#"><i class="fa fa-twitter"></i></a>
+                        <a href="#"><i class="fa fa-google-plus"></i></a>
+                        <a href="#"><i class="fa fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div class="blog-details-title">
+                    <h4>
+                        @Model.Discription
+                    </h4>
+                    @Html.Raw(Model.Detail)
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2">
+                <div class="tag-share-option">
+                    <div class="tags">
+                        <a href="#">Kinh nghiệm</a>
+                        <a href="#">Kỹ năng</a>
+                    </div>
+                    <div class="social-share">
+                        <span>Chia sẻ:</span>
+                        <a href="#"><i class="fa fa-facebook"></i></a>
+                        <a href="#"><i class="fa fa-twitter"></i></a>
+                        <a href="#"><i class="fa fa-google-plus"></i></a>
+                        <a href="#"><i class="fa fa-instagram"></i></a>
+                        <a href="#"><i class="fa fa-youtube-play"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-10 offset-lg-1">
+                <div class="comment-option">
+                    <h4>@Model.TbBlogComments.Count() bình luận</h4>
+                    @foreach (var item in Model.TbBlogComments.Where(m => m.IsChildComment == false).ToList())
+                    {
+                        <div class="single-comment-item first-comment">
+                            <div class="sc-author">
+                                <img src="@item.IduserNavigation.Avatar" alt="">
+                            </div>
+                            <div class="sc-text">
+                                <span>@item.Time.Value.ToString("hh:mm dd/MM/yyyy")</span>
+                                <h5>@item.IduserNavigation.Name</h5>
+                                <p>
+                                    @item.Comment
+                                </p>
+                                <a href="#" class="comment-btn">Thích</a>
+                                <a href="#" id="btnreply{@item.IdblogComment}" class="comment-btn">Trả lời</a>
+                            </div>
+                        </div>
+                        @foreach (var items in item.InverseIdcommentParentNavigation.ToList())
+                        {
+                            <div class="row">
+                                <div class="col-lg-11 offset-lg-1">
+                                    <div class="single-comment-item reply-comment">
+                                        <div class="sc-author">
+                                            <img src="@items.IduserNavigation.Avatar" alt="">
+                                        </div>
+                                        <div class="sc-text">
+                                            <span>@items.Time.Value.ToString("hh:mm dd/MM/yyyy")</span>
+                                            <h5>@items.IduserNavigation.Name</h5>
+                                            <p>
+                                                @items.Comment
+                                            </p>
+                                            <a href="#" class="comment-btn like-btn">Thích</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                        <div class="row">
+                            <div class="col-lg-10 offset-lg-1">
+                                <div class="leave-comment">
+                                    <h4>Trả lời bình luận</h4>
+                                    <form id="reply{@item.IdblogComment}" action="#" class="reply" style="display:none">
+                                        <input type="number" name="parent" value="@item.IdblogComment" hidden />
+                                        <textarea name="Comment" placeholder="Bình luận"></textarea>
+                                        <button type="submit" class="site-btn">Gửi bình luận</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-10 offset-lg-1">
+                <div class="leave-comment">
+                    <h4>Để lại một bình luận</h4>
+                    <form action="#">
+                        <textarea name="Comment" placeholder="Bình luận"></textarea>
+                        <button type="submit" class="site-btn">Gửi bình luận</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="section-title">
+                    <h2>You May Also Like</h2>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="single-blog-item">
+                    <div class="sb-pic">
+                        <img src="assets/img/blog/blog-details-also-1.jpg" alt="">
+                    </div>
+                    <div class="sb-text">
+                        <ul>
+                            <li><i class="fa fa-user"></i> Adam Smith</li>
+                            <li><i class="fa fa-clock-o"></i> 18th Jan, 2019</li>
+                        </ul>
+                        <h4>
+                            <a href="#">
+                                Computer users and programmers have become so accustomed to using
+                                Windows.
+                            </a>
+                        </h4>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="single-blog-item">
+                    <div class="sb-pic">
+                        <img src="assets/img/blog/blog-details-also-2.jpg" alt="">
+                    </div>
+                    <div class="sb-text">
+                        <ul>
+                            <li><i class="fa fa-user"></i> Adam Smith</li>
+                            <li><i class="fa fa-clock-o"></i> 18th Jan, 2019</li>
+                        </ul>
+                        <h4>
+                            <a href="#">
+                                After all, Sport England has awarded Birmingham the title National City of
+                                Sport.
+                            </a>
+                        </h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Blog Details Section End -->
+<!-- Partner Carousel Section Begin -->
+<div class="partner-section">
+    <div class="container">
+        <div class="partner-carousel owl-carousel">
+            <a href="#" class="partner-logo">
+                <div class="partner-logo-tablecell">
+                    <img src="assets/img/partner/partner-1.png" alt="">
+                </div>
+            </a>
+            <a href="#" class="partner-logo">
+                <div class="partner-logo-tablecell">
+                    <img src="assets/img/partner/partner-2.png" alt="">
+                </div>
+            </a>
+            <a href="#" class="partner-logo">
+                <div class="partner-logo-tablecell">
+                    <img src="assets/img/partner/partner-3.png" alt="">
+                </div>
+            </a>
+            <a href="#" class="partner-logo">
+                <div class="partner-logo-tablecell">
+                    <img src="assets/img/partner/partner-4.png" alt="">
+                </div>
+            </a>
+            <a href="#" class="partner-logo">
+                <div class="partner-logo-tablecell">
+                    <img src="assets/img/partner/partner-5.png" alt="">
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+<!-- Partner Carousel Section End -->
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelectorAll("[id^='btnreply']").forEach(function (btn) {
+                btn.addEventListener("click", function (e) {
+                    e.preventDefault();
+
+                    const id = this.id.replace("btnreply", "");
+                    const thisForm = document.getElementById("reply" + id);
+
+                    // Ẩn tất cả form trả lời
+                    document.querySelectorAll("form.reply").forEach(function (form) {
+                        form.style.display = "none";
+                    });
+
+                    // Hiện form tương ứng nếu nó đang bị ẩn
+                    if (thisForm) {
+                        thisForm.style.display = "block";
+                    }
+                });
+            });
+        });
+    </script>
+
+}

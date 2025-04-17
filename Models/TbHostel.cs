@@ -37,7 +37,9 @@ public partial class TbHostel
 
     public bool IsAvailable { get; set; }
 
-    public virtual TbDistrict? DistrictNavigation { get; set; }
-
     public virtual TbUser? IduserNavigation { get; set; }
+
+    public virtual ICollection<TbImageHostel> TbImageHostels { get; set; } = new List<TbImageHostel>();
+
+    public virtual ICollection<TbLikeHostelList> TbLikeHostelLists { get; set; } = new List<TbLikeHostelList>();
 }

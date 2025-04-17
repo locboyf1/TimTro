@@ -17,11 +17,15 @@ public partial class TbUser
 
     public string? Introduce { get; set; }
 
+    public string? Password { get; set; }
+
     public virtual ICollection<TbBlogComment> TbBlogComments { get; set; } = new List<TbBlogComment>();
 
     public virtual ICollection<TbComment> TbComments { get; set; } = new List<TbComment>();
 
     public virtual ICollection<TbHostel> TbHostels { get; set; } = new List<TbHostel>();
+
+    public virtual ICollection<TbLikeHostelList> TbLikeHostelLists { get; set; } = new List<TbLikeHostelList>();
 
     public virtual ICollection<TbNotifice> TbNotifices { get; set; } = new List<TbNotifice>();
 }

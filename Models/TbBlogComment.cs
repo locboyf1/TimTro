@@ -9,8 +9,6 @@ public partial class TbBlogComment
 
     public int? Idblog { get; set; }
 
-    public string? Name { get; set; }
-
     public string? Comment { get; set; }
 
     public bool? IsChildComment { get; set; }
@@ -21,7 +19,13 @@ public partial class TbBlogComment
 
     public int? Iduser { get; set; }
 
+    public DateTime? Time { get; set; }
+
     public virtual TbBlog? IdblogNavigation { get; set; }
 
+    public virtual TbBlogComment? IdcommentParentNavigation { get; set; }
+
     public virtual TbUser? IduserNavigation { get; set; }
+
+    public virtual ICollection<TbBlogComment> InverseIdcommentParentNavigation { get; set; } = new List<TbBlogComment>();
 }

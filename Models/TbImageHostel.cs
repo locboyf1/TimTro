@@ -5,9 +5,11 @@ namespace TimTro.Models;
 
 public partial class TbImageHostel
 {
-    public int? Idhostel { get; set; }
+    public int Idimage { get; set; }
+
+    public int Idhostel { get; set; }
 
     public string? Path { get; set; }
 
-    public virtual TbHostel? IdhostelNavigation { get; set; }
+    public virtual TbHostel IdhostelNavigation { get; set; } = null!;
 }

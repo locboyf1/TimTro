@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using System.Net.Http;
 using TimTro.Models;
@@ -22,7 +23,7 @@ namespace TimTro.Controllers
         {
             var response = await _httpClient.GetStringAsync("https://provinces.open-api.vn/api/?depth=1");
             ViewBag.Provinces = response;
-            var hostel = _context.TbHostels.Where(i => i.IsAvailable).Where(i => i.IsApproval == true).ToList();
+            var hostel = _context.TbHostels.Where(i => i.IsAvailable).Where(i => i.IsApproval == true).Where(i=>i.IsShow).Include(i=>i.TbImageHostels).Include(i=>i.IduserNavigation).ToList();
             return View(hostel);
         }
 

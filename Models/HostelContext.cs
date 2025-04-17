@@ -25,8 +25,6 @@ public partial class HostelContext : DbContext
 
     public virtual DbSet<TbContact> TbContacts { get; set; }
 
-    public virtual DbSet<TbDistrict> TbDistricts { get; set; }
-
     public virtual DbSet<TbHostel> TbHostels { get; set; }
 
     public virtual DbSet<TbImageHostel> TbImageHostels { get; set; }
@@ -36,8 +34,6 @@ public partial class HostelContext : DbContext
     public virtual DbSet<TbMenu> TbMenus { get; set; }
 
     public virtual DbSet<TbNotifice> TbNotifices { get; set; }
-
-    public virtual DbSet<TbProvince> TbProvinces { get; set; }
 
     public virtual DbSet<TbUser> TbUsers { get; set; }
 
@@ -58,6 +54,9 @@ public partial class HostelContext : DbContext
                 .HasMaxLength(10)
                 .IsUnicode(false);
             entity.Property(e => e.Name).HasMaxLength(50);
+            entity.Property(e => e.Password)
+                .HasMaxLength(100)
+                .IsUnicode(false);
             entity.Property(e => e.Phone)
                 .HasMaxLength(10)
                 .IsUnicode(false);
@@ -74,6 +73,11 @@ public partial class HostelContext : DbContext
             entity.Property(e => e.Idadmin).HasColumnName("IDAdmin");
             entity.Property(e => e.Image).HasMaxLength(100);
             entity.Property(e => e.Time).HasColumnType("datetime");
+            entity.Property(e => e.Title).HasMaxLength(100);
+
+            entity.HasOne(d => d.IdadminNavigation).WithMany(p => p.TbBlogs)
+                .HasForeignKey(d => d.Idadmin)
+                .HasConstraintName("FK_tb_Blog_tb_Admin");
         });
 
         modelBuilder.Entity<TbBlogComment>(entity =>
@@ -86,11 +90,15 @@ public partial class HostelContext : DbContext
             entity.Property(e => e.Idblog).HasColumnName("IDBlog");
             entity.Property(e => e.IdcommentParent).HasColumnName("IDCommentParent");
             entity.Property(e => e.Iduser).HasColumnName("IDUser");
-            entity.Property(e => e.Name).HasMaxLength(50);
+            entity.Property(e => e.Time).HasColumnType("datetime");
 
             entity.HasOne(d => d.IdblogNavigation).WithMany(p => p.TbBlogComments)
                 .HasForeignKey(d => d.Idblog)
                 .HasConstraintName("FK_tb_BlogComment_tb_Blog");
+
+            entity.HasOne(d => d.IdcommentParentNavigation).WithMany(p => p.InverseIdcommentParentNavigation)
+                .HasForeignKey(d => d.IdcommentParent)
+                .HasConstraintName("FK_tb_BlogComment_tb_BlogComment");
 
             entity.HasOne(d => d.IduserNavigation).WithMany(p => p.TbBlogComments)
                 .HasForeignKey(d => d.Iduser)
@@ -108,7 +116,6 @@ public partial class HostelContext : DbContext
                 .HasColumnName("IDComment");
             entity.Property(e => e.IdcommentParent).HasColumnName("IDCommentParent");
             entity.Property(e => e.Iduser).HasColumnName("IDUser");
-            entity.Property(e => e.Name).HasMaxLength(50);
 
             entity.HasOne(d => d.IduserNavigation).WithMany(p => p.TbComments)
                 .HasForeignKey(d => d.Iduser)
@@ -132,20 +139,6 @@ public partial class HostelContext : DbContext
             entity.Property(e => e.Time).HasColumnType("datetime");
         });
 
-        modelBuilder.Entity<TbDistrict>(entity =>
-        {
-            entity.HasKey(e => e.District).HasName("PK_tb_District_1");
-
-            entity.ToTable("tb_District");
-
-            entity.Property(e => e.District).HasMaxLength(80);
-            entity.Property(e => e.Province).HasMaxLength(80);
-
-            entity.HasOne(d => d.ProvinceNavigation).WithMany(p => p.TbDistricts)
-                .HasForeignKey(d => d.Province)
-                .HasConstraintName("FK_tb_District_tb_Province");
-        });
-
         modelBuilder.Entity<TbHostel>(entity =>
         {
             entity.HasKey(e => e.Idhostel);
@@ -159,10 +152,6 @@ public partial class HostelContext : DbContext
             entity.Property(e => e.Title).HasMaxLength(300);
             entity.Property(e => e.Ward).HasMaxLength(80);
 
-            entity.HasOne(d => d.DistrictNavigation).WithMany(p => p.TbHostels)
-                .HasForeignKey(d => d.District)
-                .HasConstraintName("FK_tb_Hostel_tb_District");
-
             entity.HasOne(d => d.IduserNavigation).WithMany(p => p.TbHostels)
                 .HasForeignKey(d => d.Iduser)
                 .HasConstraintName("FK_tb_Hostel_tb_User");
@@ -170,34 +159,34 @@ public partial class HostelContext : DbContext
 
         modelBuilder.Entity<TbImageHostel>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable("tb_ImageHostel");
+            entity.HasKey(e => e.Idimage);
 
+            entity.ToTable("tb_ImageHostel");
+
+            entity.Property(e => e.Idimage).HasColumnName("IDImage");
             entity.Property(e => e.Idhostel).HasColumnName("IDHostel");
 
-            entity.HasOne(d => d.IdhostelNavigation).WithMany()
+            entity.HasOne(d => d.IdhostelNavigation).WithMany(p => p.TbImageHostels)
                 .HasForeignKey(d => d.Idhostel)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_tb_ImageHostel_tb_Hostel");
         });
 
         modelBuilder.Entity<TbLikeHostelList>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable("tb_LikeHostelList");
+            entity.HasKey(e => e.IdlikeHostelList);
 
+            entity.ToTable("tb_LikeHostelList");
+
+            entity.Property(e => e.IdlikeHostelList).HasColumnName("IDLikeHostelList");
             entity.Property(e => e.Idhostel).HasColumnName("IDHostel");
-            entity.Property(e => e.IdlikeHostelList)
-                .ValueGeneratedOnAdd()
-                .HasColumnName("IDLikeHostelList");
             entity.Property(e => e.Iduser).HasColumnName("IDUser");
 
-            entity.HasOne(d => d.IdhostelNavigation).WithMany()
+            entity.HasOne(d => d.IdhostelNavigation).WithMany(p => p.TbLikeHostelLists)
                 .HasForeignKey(d => d.Idhostel)
                 .HasConstraintName("FK_tb_LikeHostelList_tb_Hostel");
 
-            entity.HasOne(d => d.IduserNavigation).WithMany()
+            entity.HasOne(d => d.IduserNavigation).WithMany(p => p.TbLikeHostelLists)
                 .HasForeignKey(d => d.Iduser)
                 .HasConstraintName("FK_tb_LikeHostelList_tb_User");
         });
@@ -239,15 +228,6 @@ public partial class HostelContext : DbContext
                 .HasConstraintName("FK_tb_Notifice_tb_User");
         });
 
-        modelBuilder.Entity<TbProvince>(entity =>
-        {
-            entity.HasKey(e => e.Province);
-
-            entity.ToTable("tb_Province");
-
-            entity.Property(e => e.Province).HasMaxLength(80);
-        });
-
         modelBuilder.Entity<TbUser>(entity =>
         {
             entity.HasKey(e => e.Iduser);
@@ -259,6 +239,9 @@ public partial class HostelContext : DbContext
                 .HasMaxLength(10)
                 .IsUnicode(false);
             entity.Property(e => e.Name).HasMaxLength(50);
+            entity.Property(e => e.Password)
+                .HasMaxLength(100)
+                .IsUnicode(false);
             entity.Property(e => e.Phone)
                 .HasMaxLength(10)
                 .IsUnicode(false);
