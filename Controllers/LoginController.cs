@@ -26,17 +26,19 @@ namespace TimTro.Controllers
             var check = _context.TbUsers.FirstOrDefault(i => i.Phone == phone && i.Password == md5pass);
             if (check == null)
             {
-                Functions.usermessage = "Sai số điện thoại hoặc mật khẩu";
-                return View("Index");
+                Functions.message = "Sai số điện thoại hoặc mật khẩu";
+                return Redirect("/login");
 
             }
             else
             {
+                Functions.userrole = check.RoleId;
                 Functions.userid = check.Iduser;
                 Functions.userphone = check.Phone;
-                Functions.usermessage = string.Empty;
+                Functions.message = string.Empty;
                 Functions.username = check.Name;
                 Functions.useravatar = check.Avatar;
+                Functions.useravatartype = check.AvatarType;
                 if (string.IsNullOrEmpty(Functions.returnlink))
                 {
                     return RedirectToAction("Index", "Home");
@@ -55,13 +57,14 @@ namespace TimTro.Controllers
             var check = _context.TbUsers.FirstOrDefault(i => i.Phone == phone);
             if (check != null)
             {
-                Functions.usermessage = "Số điện thoại đã được đăng ký";
+                Functions.message = "Số điện thoại đã được đăng ký";
                 return View("Index");
             }
             else
             {
                 TbUser user = new TbUser()
                 {
+                    RoleId = 1,
                     Phone = phone,
                     Name = name,
                     Password = md5pass
@@ -69,7 +72,7 @@ namespace TimTro.Controllers
 
                 _context.TbUsers.Add(user);
                 _context.SaveChanges();
-                Functions.usermessage = string.Empty;
+                Functions.message = string.Empty;
                 return View("Index");
             }
         }
@@ -79,9 +82,11 @@ namespace TimTro.Controllers
             Functions.username = string.Empty;
             Functions.userid = 0;
             Functions.userphone = string.Empty;
-            Functions.usermessage = string.Empty;
-            Functions.useravatar = string.Empty;
-            return View("Index");
+            Functions.message = string.Empty;
+            Functions.useravatar = null;
+            Functions.useravatartype = string.Empty;
+            Functions.userrole = 0;
+            return RedirectToAction("Index", "Home");
         }
 
 

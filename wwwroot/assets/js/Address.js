@@ -9,19 +9,23 @@
             method: 'GET',
             success: function (data) {
                 var $provinceSelect = $('#province');
-                $provinceSelect.html('<option value="">Chọn tỉnh/thành phố</option>'); // Reset options
+                var selectedProvince = $provinceSelect.data('selected'); // lấy mã đã chọn
+                $provinceSelect.html('<option value="">Chọn tỉnh/thành phố</option>');
 
                 $.each(data, function (index, province) {
                     $provinceSelect.append(`<option value="${province.code}">${province.name}</option>`);
                 });
 
-                $provinceSelect.niceSelect('update');
-            },
-            error: function (xhr, status, error) {
-                console.error("Lỗi khi tải danh sách tỉnh:", error);
+                $provinceSelect.val(selectedProvince).niceSelect('update');
+
+                // Nếu có sẵn tỉnh thì load huyện
+                if (selectedProvince) {
+                    loadDistricts(selectedProvince);
+                }
             }
         });
     }
+
 
     // Hàm tải danh sách huyện/quận
     function loadDistricts(provinceCode) {
@@ -30,20 +34,22 @@
             method: 'GET',
             success: function (data) {
                 var $districtSelect = $('#district');
+                var selectedDistrict = $districtSelect.data('selected');
                 $districtSelect.html('<option value="">Chọn quận/huyện</option>');
 
                 $.each(data.districts, function (index, district) {
                     $districtSelect.append(`<option value="${district.code}">${district.name}</option>`);
                 });
 
-                $districtSelect.niceSelect('update');
-                $('#ward').html('<option value="">Chọn phường/xã</option>').niceSelect('update'); // Reset xã
-            },
-            error: function (xhr, status, error) {
-                console.error("Lỗi khi tải danh sách huyện:", error);
+                $districtSelect.val(selectedDistrict).niceSelect('update');
+
+                if (selectedDistrict) {
+                    loadWards(selectedDistrict);
+                }
             }
         });
     }
+
 
     // Hàm tải danh sách xã/phường
     function loadWards(districtCode) {
@@ -52,19 +58,18 @@
             method: 'GET',
             success: function (data) {
                 var $wardSelect = $('#ward');
+                var selectedWard = $wardSelect.data('selected');
                 $wardSelect.html('<option value="">Chọn phường/xã</option>');
 
                 $.each(data.wards, function (index, ward) {
-                    $wardSelect.append(`<option value="${ward.code}">${ward.name}</option>`);
+                    $wardSelect.append(`<option value="${ward.name}">${ward.name}</option>`);
                 });
 
-                $wardSelect.niceSelect('update');
-            },
-            error: function (xhr, status, error) {
-                console.error("Lỗi khi tải danh sách xã:", error);
+                $wardSelect.val(selectedWard).niceSelect('update');
             }
         });
     }
+
 
     // Gọi hàm load danh sách tỉnh/thành phố khi trang tải
     loadProvinces();

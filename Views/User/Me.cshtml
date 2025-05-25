@@ -1,0 +1,104 @@
+﻿@model TbUser
+@using TimTro.Utilities;
+<!-- Breadcrumb Section Begin -->
+<section class="breadcrumb-section contact-page">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb-text">
+                    <h2>Contact Us</h2>
+                    <div class="breadcrumb-option">
+                        <a href="#"><i class="fa fa-home"></i> Home</a>
+                        <span>Contact</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Breadcrumb Section Begin -->
+<!-- Contact Section Begin -->
+<section class="contact-section">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="row">
+                    <div class="col-lg-7 offset-lg-1">
+                        <div class="contact-text">
+                            <div class="section-title">
+                                <span>Thông tin của bạn</span>
+                                <h2>Chỉnh sửa</h2>
+                            </div>
+                            <form asp-action="Edit" class="contact-form" enctype="multipart/form-data">
+                                <label asp-for="Name">Họ tên</label>
+                                <input asp-for="Name" type="text" placeholder="Họ Tên">
+                                <label asp-for="Phone">Số điện thoại</label>
+                                <input asp-for="Phone" type="text" placeholder="Số điện thoại">
+                                <label asp-for="Birth">Ngày sinh</label>
+                                <input type="date" asp-for="Birth" placeholder="Ngày sinh">
+                                <label asp-for="Introduce">Mô tả</label>
+                                <textarea asp-for="Introduce" placeholder="Mô tả"></textarea>
+                                <label for="img">Ảnh đại diện</label>
+                                <input type="file"  id="inputImg" name="img" accept="image/*">
+
+
+                                <button type="submit" class="site-btn">Lưu</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <img src="@Images.ConvertToBase64Src(Model.Avatar, Model.AvatarType)" alt="Contact Image" id="previewImg" class="contact-image" width="200px" height="200px style="border-radius: 50%"/>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Contact Section End -->
+<!-- Partner Carousel Section Begin -->
+<div class="partner-section contact-partner">
+    <div class="container">
+        <div class="partner-carousel owl-carousel">
+            <a href="#" class="partner-logo">
+                <div class="partner-logo-tablecell">
+                    <img src="img/partner/partner-1.png" alt="">
+                </div>
+            </a>
+            <a href="#" class="partner-logo">
+                <div class="partner-logo-tablecell">
+                    <img src="img/partner/partner-2.png" alt="">
+                </div>
+            </a>
+            <a href="#" class="partner-logo">
+                <div class="partner-logo-tablecell">
+                    <img src="img/partner/partner-3.png" alt="">
+                </div>
+            </a>
+            <a href="#" class="partner-logo">
+                <div class="partner-logo-tablecell">
+                    <img src="img/partner/partner-4.png" alt="">
+                </div>
+            </a>
+            <a href="#" class="partner-logo">
+                <div class="partner-logo-tablecell">
+                    <img src="img/partner/partner-5.png" alt="">
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+<!-- Partner Carousel Section End -->
+@section Scripts {
+    <script>
+        document.getElementById('inputImg').addEventListener('change', function (event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById('previewImg').src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+}

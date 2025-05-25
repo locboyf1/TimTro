@@ -1,113 +1,118 @@
 ﻿@model List<TbHostel>
+@using TimTro.Utilities;
 @{
     ViewBag.Title = "Azenta - quảng bá và tìm trọ trực tuyến";
     ViewBag.Active = "trangchu";
+
+    List<TbBlog> blogs = ViewBag.blogs;
+    List<TbUser> users = ViewBag.users;
+
     var provinces = ViewBag.Provinces as string;
 }
 <!-- Hero Section Begin -->
 <section class="hero-section">
     <div class="hero-items owl-carousel">
         <div class="single-hero-item set-bg" data-setbg="/assets/img/hero/hero-1.jpg">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-8 offset-lg-2">
-                        <div class="hero-text">
-                            <p class="room-location"><i class="icon_pin"></i> 9721 Glen Creek Ave. Ballston Spa, NY</p>
-                            <h2>Villa 9721 Glen Creek</h2>
-                            <div class="room-price">
-                                <span>Start Form:</span>
-                                <p>1.000.000 VNĐ</p>
-                            </div>
-                            <ul class="room-features">
-                                <li>
-                                    <i class="fa fa-arrows"></i>
-                                    <p>5201 sqft</p>
-                                </li>
-                                <li>
-                                    <i class="fa fa-bed"></i>
-                                    <p>8 Bed Room</p>
-                                </li>
-                                <li>
-                                    <i class="fa fa-bath"></i>
-                                    <p>7 Baths Bed</p>
-                                </li>
-                                <li>
-                                    <i class="fa fa-car"></i>
-                                    <p>1 Garage</p>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            @* <div class="container"> *@
+            @*     <div class="row"> *@
+            @*         <div class="col-lg-8 offset-lg-2"> *@
+            @*             <div class="hero-text"> *@
+            @*                 <p class="room-location"><i class="icon_pin"></i> 9721 Glen Creek Ave. Ballston Spa, NY</p> *@
+            @*                 <h2>Villa 9721 Glen Creek</h2> *@
+            @*                 <div class="room-price"> *@
+            @*                     <span>Start Form:</span> *@
+            @*                     <p>1.000.000 VNĐ</p> *@
+            @*                 </div> *@
+            @*                 <ul class="room-features"> *@
+            @*                     <li> *@
+            @*                         <i class="fa fa-arrows"></i> *@
+            @*                         <p>5201 sqft</p> *@
+            @*                     </li> *@
+            @*                     <li> *@
+            @*                         <i class="fa fa-bed"></i> *@
+            @*                         <p>8 Bed Room</p> *@
+            @*                     </li> *@
+            @*                     <li> *@
+            @*                         <i class="fa fa-bath"></i> *@
+            @*                         <p>7 Baths Bed</p> *@
+            @*                     </li> *@
+            @*                     <li> *@
+            @*                         <i class="fa fa-car"></i> *@
+            @*                         <p>1 Garage</p> *@
+            @*                     </li> *@
+            @*                 </ul> *@
+            @*             </div> *@
+            @*         </div> *@
+            @*     </div> *@
+            @* </div> *@
         </div>
         <div class="single-hero-item set-bg" data-setbg="/assets/img/hero/hero-2.jpg">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-8 offset-lg-2">
-                        <div class="hero-text">
-                            <p class="room-location"><i class="icon_pin"></i> 9721 Glen Creek Ave. Ballston Spa, NY</p>
-                            <h2>Villa 9721 Glen Creek</h2>
-                            <div class="room-price">
-                                <span>Start Form:</span>
-                                <p>$3.000.000</p>
-                            </div>
-                            <ul class="room-features">
-                                <li>
-                                    <i class="fa fa-arrows"></i>
-                                    <p>5201 sqft</p>
-                                </li>
-                                <li>
-                                    <i class="fa fa-bed"></i>
-                                    <p>8 Bed Room</p>
-                                </li>
-                                <li>
-                                    <i class="fa fa-bath"></i>
-                                    <p>7 Baths Bed</p>
-                                </li>
-                                <li>
-                                    <i class="fa fa-car"></i>
-                                    <p>1 Garage</p>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            @* <div class="container"> *@
+            @*     <div class="row"> *@
+            @*         <div class="col-lg-8 offset-lg-2"> *@
+            @*             <div class="hero-text"> *@
+            @*                 <p class="room-location"><i class="icon_pin"></i> 9721 Glen Creek Ave. Ballston Spa, NY</p> *@
+            @*                 <h2>Villa 9721 Glen Creek</h2> *@
+            @*                 <div class="room-price"> *@
+            @*                     <span>Start Form:</span> *@
+            @*                     <p>$3.000.000</p> *@
+            @*                 </div> *@
+            @*                 <ul class="room-features"> *@
+            @*                     <li> *@
+            @*                         <i class="fa fa-arrows"></i> *@
+            @*                         <p>5201 sqft</p> *@
+            @*                     </li> *@
+            @*                     <li> *@
+            @*                         <i class="fa fa-bed"></i> *@
+            @*                         <p>8 Bed Room</p> *@
+            @*                     </li> *@
+            @*                     <li> *@
+            @*                         <i class="fa fa-bath"></i> *@
+            @*                         <p>7 Baths Bed</p> *@
+            @*                     </li> *@
+            @*                     <li> *@
+            @*                         <i class="fa fa-car"></i> *@
+            @*                         <p>1 Garage</p> *@
+            @*                     </li> *@
+            @*                 </ul> *@
+            @*             </div> *@
+            @*         </div> *@
+            @*     </div> *@
+            @* </div> *@
         </div>
         <div class="single-hero-item set-bg" data-setbg="/assets/img/hero/hero-3.jpg">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-8 offset-lg-2">
-                        <div class="hero-text">
-                            <p class="room-location"><i class="icon_pin"></i> 9721 Glen Creek Ave. Ballston Spa, NY</p>
-                            <h2>Villa 9721 Glen Creek</h2>
-                            <div class="room-price">
-                                <span>Start Form:</span>
-                                <p>$3.000.000</p>
-                            </div>
-                            <ul class="room-features">
-                                <li>
-                                    <i class="fa fa-arrows"></i>
-                                    <p>5201 sqft</p>
-                                </li>
-                                <li>
-                                    <i class="fa fa-bed"></i>
-                                    <p>8 Bed Room</p>
-                                </li>
-                                <li>
-                                    <i class="fa fa-bath"></i>
-                                    <p>7 Baths Bed</p>
-                                </li>
-                                <li>
-                                    <i class="fa fa-car"></i>
-                                    <p>1 Garage</p>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            @* <div class="container"> *@
+            @*     <div class="row"> *@
+            @*         <div class="col-lg-8 offset-lg-2"> *@
+            @*             <div class="hero-text"> *@
+            @*                 <p class="room-location"><i class="icon_pin"></i> 9721 Glen Creek Ave. Ballston Spa, NY</p> *@
+            @*                 <h2>Villa 9721 Glen Creek</h2> *@
+            @*                 <div class="room-price"> *@
+            @*                     <span>Start Form:</span> *@
+            @*                     <p>$3.000.000</p> *@
+            @*                 </div> *@
+            @*                 <ul class="room-features"> *@
+            @*                     <li> *@
+            @*                         <i class="fa fa-arrows"></i> *@
+            @*                         <p>5201 sqft</p> *@
+            @*                     </li> *@
+            @*                     <li> *@
+            @*                         <i class="fa fa-bed"></i> *@
+            @*                         <p>8 Bed Room</p> *@
+            @*                     </li> *@
+            @*                     <li> *@
+            @*                         <i class="fa fa-bath"></i> *@
+            @*                         <p>7 Baths Bed</p> *@
+            @*                     </li> *@
+            @*                     <li> *@
+            @*                         <i class="fa fa-car"></i> *@
+            @*                         <p>1 Garage</p> *@
+            @*                     </li> *@
+            @*                 </ul> *@
+            @*             </div> *@
+            @*         </div> *@
+            @*     </div> *@
+            @* </div> *@
         </div>
     </div>
     <div class="thumbnail-pic">
@@ -146,11 +151,11 @@
                             <option value="">Chọn tỉnh/thành phố</option>
                         </select>
 
-                        <select id="district">
+                        <select id="district" name="district">
                             <option value="">Chọn quận/huyện</option>
                         </select>
 
-                        <select id="ward">
+                        <select id="ward" name="ward">
                             <option value="">Chọn phường/xã</option>
                         </select>
 
@@ -242,7 +247,7 @@
                 {
                     <div class="col-lg-4">
                         <div class="feature-item">
-                            <div class="fi-pic set-bg" data-setbg="@item.TbImageHostels.First().Path">
+                            <div class="fi-pic set-bg" data-setbg="@item.Image">
                                 <div class="pic-tag">
                                     @if (!item.IsAvailable)
                                     {
@@ -434,71 +439,24 @@
         </div>
         <div class="row">
             <div class="agent-carousel owl-carousel">
-                <div class="col-lg-3">
-                    <div class="single-agent">
-                        <div class="sa-pic">
-                            <img src="/assets/img/agent/agent-1.jpg" alt="">
-                            <div class="hover-social">
-                                <a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
-                                <a href="#" class="instagram"><i class="fa fa-instagram"></i></a>
-                                <a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
+                @foreach (var item in users)
+                {
+                    string URL = $"/user/{item.Iduser}.html";
+                    <div class="col-lg-3">
+                        <div class="single-agent">
+                            <div class="sa-pic">
+                                <img src="@Images.ConvertToBase64Src(@item.Avatar, item.AvatarType)" alt="">
+                                <div class="hover-social">
+                                    <a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
+                                    <a href="#" class="instagram"><i class="fa fa-instagram"></i></a>
+                                    <a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
+                                </div>
                             </div>
+                            <a href="@URL"><h5>@item.Name</h5></a>
                         </div>
-                        <h5>Matthew Robbins <span>Founder & Ceo</span></h5>
                     </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="single-agent">
-                        <div class="sa-pic">
-                            <img src="/assets/img/agent/agent-2.jpg" alt="">
-                            <div class="hover-social">
-                                <a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
-                                <a href="#" class="instagram"><i class="fa fa-instagram"></i></a>
-                                <a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
-                            </div>
-                        </div>
-                        <h5>Tillie Burns <span>Marketing Manager</span></h5>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="single-agent">
-                        <div class="sa-pic">
-                            <img src="/assets/img/agent/agent-3.jpg" alt="">
-                            <div class="hover-social">
-                                <a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
-                                <a href="#" class="instagram"><i class="fa fa-instagram"></i></a>
-                                <a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
-                            </div>
-                        </div>
-                        <h5>Derrick Lawson <span>Company Agents</span></h5>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="single-agent">
-                        <div class="sa-pic">
-                            <img src="/assets/img/agent/agent-4.jpg" alt="">
-                            <div class="hover-social">
-                                <a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
-                                <a href="#" class="instagram"><i class="fa fa-instagram"></i></a>
-                                <a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
-                            </div>
-                        </div>
-                        <h5>Clifford Colon <span>Saler Manager</span></h5>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="single-agent">
-                        <div class="sa-pic">
-                            <img src="/assets/img/agent/agent-5.jpg" alt="">
-                            <div class="hover-social">
-                                <a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
-                                <a href="#" class="instagram"><i class="fa fa-instagram"></i></a>
-                                <a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
-                            </div>
-                        </div>
-                        <h5>Clifford Colon <span>Saler Manager</span></h5>
-                    </div>
-                </div>
+                }
+
             </div>
         </div>
     </div>
@@ -516,48 +474,25 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-4">
-                <div class="single-blog-item">
-                    <div class="sb-pic">
-                        <img src="/assets/img/blog/latest-1.jpg" alt="">
-                    </div>
-                    <div class="sb-text">
-                        <ul>
-                            <li><i class="fa fa-user"></i> Adam Smith</li>
-                            <li><i class="fa fa-clock-o"></i> 18th Jan, 2019</li>
-                        </ul>
-                        <h4><a href="#">Enhance Your Brand Potential With Giant.</a></h4>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="single-blog-item">
-                    <div class="sb-pic">
-                        <img src="/assets/img/blog/latest-2.jpg" alt="">
-                    </div>
-                    <div class="sb-text">
-                        <ul>
-                            <li><i class="fa fa-user"></i> Adam Smith</li>
-                            <li><i class="fa fa-clock-o"></i> 18th Jan, 2019</li>
-                        </ul>
-                        <h4><a href="#">Illustration In Marketing Materials</a></h4>
+            @foreach (var item in blogs)
+            {
+                string URL = $"/blogs/blog_{item.Idblog}.html";
+                <div class="col-lg-4">
+                    <div class="single-blog-item">
+                        <div class="sb-pic">
+                            <img src="@Images.ConvertToBase64Src(item.Image, item.ImageType)" alt="">
+                        </div>
+                        <div class="sb-text">
+                            <ul>
+                                <li><i class="fa fa-user"></i> @item.IduserNavigation.Name</li>
+                                <li><i class="fa fa-clock-o"></i> @item.Time.Value.ToString("dd/MM/yyyy hh:mm")</li>
+                            </ul>
+                            <h4><a href="@URL">@item.Title</a></h4>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="single-blog-item">
-                    <div class="sb-pic">
-                        <img src="/assets/img/blog/latest-3.jpg" alt="">
-                    </div>
-                    <div class="sb-text">
-                        <ul>
-                            <li><i class="fa fa-user"></i> Adam Smith</li>
-                            <li><i class="fa fa-clock-o"></i> 18th Jan, 2019</li>
-                        </ul>
-                        <h4><a href="#">Branding Do You Know Who You Are</a></h4>
-                    </div>
-                </div>
-            </div>
+            }
+
         </div>
     </div>
 </section>
@@ -594,3 +529,4 @@
         </div>
     </div>
 </div>
+

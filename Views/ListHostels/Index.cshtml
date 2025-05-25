@@ -1,0 +1,78 @@
+﻿@model IEnumerable<TimTro.Models.TbHostel>
+@using TimTro.Utilities;
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>Danh sách trọ của bạn</h3>
+<a asp-action="Create">Đăng trọ mới</a>
+<div class="table-wrapper tablepage">
+    <table class="fl-table">
+        <thead>
+            <tr>
+                <th>Tiêu đề</th>
+                <th>Giá</th>
+                <th>Diện tích</th>
+                <th>Khép kín</th>
+                <th>Địa chỉ chi tiết</th>
+                <th>Xã, phường</th>
+                <th>Quận, huyện</th>
+                <th>Ảnh</th>
+                <th>Ngày đăng</th>
+                <th></th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.ToList())
+            {
+                <tr>
+                    <td>
+                        @item.Title
+                    </td>
+                    <td>
+                        @item.Price
+                    </td>
+                    <td>
+                        @item.Area m²
+                    </td>
+                    <td>
+                        @item.IsPrivate
+                    </td>
+                    <td>
+                        @item.AddressDetail
+                    </td>
+                    <td>
+                        @item.Ward
+                    </td>
+                    <td>
+                        @await Functions.GetNameByType("d", item.District)
+                    </td>
+                    <td>
+                        <img src="@Images.ConvertToBase64Src(item.Image, item.ImageType)" height="80px" width="100px" />
+                    </td>
+                    <td>
+
+                        @item.UploadDate.Value.ToString("dd/MM/yyyy")
+                    </td>
+                    <td>
+
+
+                        @if (!item.IsShow)
+                        {
+                            <a asp-action="ChangeToShow" asp-route-id="@item.Idhostel">Hiện trọ</a>
+                        }
+                        else
+                        {
+                            <a asp-action="ChangeToHide" asp-route-id="@item.Idhostel">Ẩn trọ</a>
+                        }
+                        <a asp-action="Edit" asp-route-id="@item.Idhostel">Sửa</a>
+                        <a asp-action="Details" asp-route-id="@item.Idhostel">Details</a>
+                        <a asp-action="Delete" asp-route-id="@item.Idhostel">Delete</a>
+                    </td>
+                </tr>
+            }
+        <tbody>
+    </table>
+</div>

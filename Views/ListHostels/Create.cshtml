@@ -1,0 +1,130 @@
+﻿@model TimTro.Models.TbHostel
+
+@{
+    ViewData["Title"] = "Create";
+}
+@* <link rel="stylesheet" href="/assets/css/style.css" type="text/css"> *@
+
+<div class="formpage">
+    <div class="container ">
+        <div class="text">
+            Đăng trọ mới
+        </div>
+        <form asp-action="Create" method="post" enctype="multipart/form-data">
+            <div class="form-row">
+                <div class="input-data">
+                    <input asp-for="Title" type="text" required>
+                    <div class="underline"></div>
+                    <label for="">Tiêu đề</label>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="input-data">
+                    <input asp-for="AddressDetail" type="text" required>
+                    <div class="underline"></div>
+                    <label for="">Địa chỉ chi tiết</label>
+                </div>
+            </div>
+            <div class="form-row">
+                <div>
+                    <select asp-for="Province" id="province" class="nice-select" name="province">
+                        <option value="">Chọn tỉnh/thành phố</option>
+                    </select>
+                </div>
+                <div>
+                    <select asp-for="District" class="nice-select" name="district" id="district">
+                        <option value="">Chọn quận/huyện</option>
+                    </select>
+                </div>
+                <div>
+                    <select asp-for="Ward" class="nice-select" name="ward" id="ward">
+                        <option value="">Chọn phường/xã</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="input-data">
+                    <input asp-for="Price" type="number" required>
+                    <div class="underline"></div>
+                    <label for="">Giá</label>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="input-data">
+                    <input asp-for="Area" type="number" required>
+                    <div class="underline"></div>
+                    <label for="">Diện tích (m²)</label>
+                </div>
+            </div>
+            <div class="form-row form-select">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsPrivate" /> Khép kín
+                </label>
+
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsHasParkingLot" /> Có chỗ để xe
+                </label>
+
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsShow" /> Hiện
+                </label>
+            </div>
+
+            <div class="form-row">
+                <div class="input-data textarea">
+                    <textarea asp-for="Description" rows="8" cols="80" required></textarea>
+                    <br />
+                    <div class="underline"></div>
+                    <label for="">Mô tả</label>
+                    <br />
+
+                </div>
+            </div>
+
+            <div class="form-row">
+
+                <div class="col-3 mb-3 d-flex flex-column align-items-center">
+                    <label style="width: 100px; height: 100px; border: 2px dashed #ccc; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+                        <span id="preview-text-1">+</span>
+                        <img id="preview-img-1" src="#" alt="Preview" style="display:none; width:100%; height:100%; object-fit:cover;" />
+                        <input type="file" name="img" accept="image/*" onchange="previewImage(this, 1)" style="display: none;" required />
+                    </label>
+                </div>
+            </div>
+            <div class="form-row submit-btn">
+                <div class="input-data">
+                    <div class="inner"></div>
+                    <input type="submit" value="Tạo">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Quay lại danh sách</a>
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        function previewImage(input, index) {
+            const file = input.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.getElementById('preview-img-' + index);
+                    const text = document.getElementById('preview-text-' + index);
+                    img.src = e.target.result;
+                    img.style.display = 'block';
+                    text.style.display = 'none';
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+    </script>
+}

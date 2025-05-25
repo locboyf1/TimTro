@@ -8,7 +8,7 @@ namespace TimTro.ViewComponents
     public class MenuViewComponent : ViewComponent
     {
         private readonly HostelContext _context;
-
+            
         public MenuViewComponent(HostelContext context)
         {
             _context = context;

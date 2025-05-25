@@ -1,4 +1,5 @@
 ﻿@using TimTro.Utilities;
+@using System.Text.Encodings.Web
 <!DOCTYPE html>
 <html lang="zxx">
 
@@ -29,6 +30,14 @@
 </head>
 
 <body>
+    @if (!string.IsNullOrEmpty(Functions.message))
+    {
+        <script>
+            alert('@Html.Raw(JavaScriptEncoder.Default.Encode(Functions.message))');
+        </script>
+        Functions.message = string.Empty;
+    }
+
     <!-- Page Preloder -->
     <div id="preloder">
         <div class="loader"></div>
@@ -52,8 +61,8 @@
                     <i class="fa fa-angle-down"></i>
                     <div class="flag-dropdown">
                         <ul>
-                            <li><a href="#">Thông tin tài khoản</a></li>
-                            <li><a href="/login/logout">Đăng xuất</a></li>
+                            <li><a asp-action="Me" asp-controller="User" >Sửa thông tin tài khoản</a></li>
+                            <li><a asp-action="Logout" asp-controller="Login">Đăng xuất</a></li>
                         </ul>
                     </div>
                 </div>
@@ -119,13 +128,13 @@
                             @if (Functions.IsLogin())
                             {
                                 <div class="language-option">
-                                    <img src="@Functions.useravatar" alt="">
+                                    <img src="@Images.ConvertToBase64Src(Functions.useravatar, Functions.useravatartype)" alt="">
                                     <span>@Functions.username</span>
                                     <i class="fa fa-angle-down"></i>
                                     <div class="flag-dropdown">
                                         <ul>
-                                            <li><a href="#">Tài khoản</a></li>
-                                            <li><a href="/login/logout">Đăng xuất</a></li>
+                                            <li><a asp-action="Me" asp-controller="User">Sửa thông tin tài khoản</a></li>
+                                            <li><a asp-action="Logout" asp-controller="Login">Đăng xuất</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -253,7 +262,7 @@
 
 
     <script src="/assets/js/jquery-3.6.0.min.js"></script>
-    @* <script src="/assets/js/swiper-bundle.min.js"></script> *@
+    <script src="/assets/js/swiper-bundle.min.js"></script>
     <script src="/assets/js/bootstrap.min.js"></script>
     <script src="/assets/js/jquery.magnific-popup.min.js"></script>
     <script src="/assets/js/jquery.slicknav.js"></script>
@@ -261,7 +270,7 @@
     <script src="/assets/js/owl.carousel.min.js"></script>
     <script src="/assets/js/jquery.nice-select.min.js"></script>
     <script src="/assets/js/main.js"></script>
-    <script src="~/assets/js/Address.js"></script>
+    <script src="/assets/js/Address.js"></script>
     @RenderSection("Scripts", required: false)
 
 </body>

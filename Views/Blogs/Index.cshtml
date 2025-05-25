@@ -1,4 +1,5 @@
 ﻿@model List<TbBlog>
+@using TimTro.Utilities
 <!-- Breadcrumb Section Begin -->
 <section class="breadcrumb-section">
     <div class="container">
@@ -26,15 +27,15 @@
                 <div class="col-lg-4 col-md-6">
                     <div class="single-blog-item">
                         <div class="sb-pic">
-                            <img src="@item.Image" alt="">
+                            <img src="@Images.ConvertToBase64Src(item.Image, item.ImageType)" alt="">
                         </div>
                         <div class="sb-text">
                             <ul>
-                                <li><i class="fa fa-user"></i>@item.IdadminNavigation.Name</li>
+                                <li><i class="fa fa-user"></i>@item.IduserNavigation.Name</li>
                                 <li><i class="fa fa-clock-o"></i>@item.Time.Value.ToString("dd/MM/yyyy")</li>
                             </ul>
                             <h4><a href="@url">@item.Title</a></h4>
-                            @item.TbBlogComments.Count();
+
                         </div>
                     </div>
                 </div>

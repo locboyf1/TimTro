@@ -1,14 +1,15 @@
 ﻿@model TbBlog
+@using TimTro.Utilities
 <!-- Blog Details Hero Section Begin -->
-<section class="blog-details-hero set-bg" data-setbg="@Model.Image">
-    <div class="container">
+<section class="blog-details-hero set-bg" data-setbg="@Images.ConvertToBase64Src(Model.Image, Model.ImageType)">
+    <div class="container" style="background-color: rgba(0, 0 ,0, 0.5); padding: 10px; border-radius: 10px">
         <div class="row">
             <div class="col-lg-12">
                 <div class="bd-hero-text">
                     <span>Bài viết</span>
                     <h2>@Model.Title</h2>
                     <ul>
-                        <li><i class="fa fa-user"></i>@Model.IdadminNavigation.Name</li>
+                        <li><i class="fa fa-user"></i>@Model.IduserNavigation.Name</li>
                         <li><i class="fa fa-clock-o"></i>@Model.Time.Value.ToString("hh:mm đ/MM/yyyy")</li>
                     </ul>
                 </div>
@@ -35,7 +36,7 @@
             <div class="col-lg-8">
                 <div class="blog-details-title">
                     <h4>
-                        @Model.Discription
+                        @Model.Description
                     </h4>
                     @Html.Raw(Model.Detail)
                 </div>
@@ -105,10 +106,20 @@
                             <div class="col-lg-10 offset-lg-1">
                                 <div class="leave-comment">
                                     <h4>Trả lời bình luận</h4>
-                                    <form id="reply{@item.IdblogComment}" action="#" class="reply" style="display:none">
-                                        <input type="number" name="parent" value="@item.IdblogComment" hidden />
-                                        <textarea name="Comment" placeholder="Bình luận"></textarea>
-                                        <button type="submit" class="site-btn">Gửi bình luận</button>
+                                    <form id="reply{@item.IdblogComment}" asp-action="Comment" method="post" class="reply" style="display:none">
+                                        @if (!Functions.IsLogin())
+                                        {
+                                            <input type="hidden" name="Idblog" value="@Model.Idblog" />
+                                            <h5><button type="submit">Đăng nhập</button> để bình luận</h5>
+                                        }
+                                        else
+                                        {
+                                            <input type="hidden" name="Idblog" value="@Model.Idblog" />
+                                            <input type="hidden" name="IsChildComment" checked />
+                                            <input type="hidden" name="IdcommentParent" value="@item.IdblogComment" />
+                                            <textarea name="Comment" placeholder="Bình luận"></textarea>
+                                            <button type="submit" class="site-btn">Gửi bình luận</button>
+                                        }
                                     </form>
                                 </div>
                             </div>
@@ -122,9 +133,19 @@
             <div class="col-lg-10 offset-lg-1">
                 <div class="leave-comment">
                     <h4>Để lại một bình luận</h4>
-                    <form action="#">
-                        <textarea name="Comment" placeholder="Bình luận"></textarea>
-                        <button type="submit" class="site-btn">Gửi bình luận</button>
+                    <form asp-action="Comment" method="post">
+                        @if (!Functions.IsLogin())
+                        {
+                            <input type="hidden" name="Idblog" value="@Model.Idblog" />
+                            <h5><button class="btn btn-primary" type="submit">Đăng nhập</button> để bình luận</h5>
+                        }
+                        else
+                        {
+                            <input type="hidden" name="Idblog" value="@Model.Idblog" />
+                            <input type="hidden" name="IsChildComment" />
+                            <textarea name="Comment" placeholder="Bình luận"></textarea>
+                            <button type="submit" class="site-btn">Gửi bình luận</button>
+                        }
                     </form>
                 </div>
             </div>
@@ -210,7 +231,6 @@
     </div>
 </div>
 <!-- Partner Carousel Section End -->
-
 @section Scripts {
     <script>
         document.addEventListener("DOMContentLoaded", function () {

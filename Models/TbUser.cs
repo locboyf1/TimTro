@@ -11,15 +11,23 @@ public partial class TbUser
 
     public string? Phone { get; set; }
 
-    public string? Birth { get; set; }
+    public DateOnly? Birth { get; set; }
 
-    public string? Avatar { get; set; }
+    public byte[]? Avatar { get; set; }
 
     public string? Introduce { get; set; }
 
     public string? Password { get; set; }
 
+    public string? AvatarType { get; set; }
+
+    public int? RoleId { get; set; }
+
+    public virtual TbRole? Role { get; set; }
+
     public virtual ICollection<TbBlogComment> TbBlogComments { get; set; } = new List<TbBlogComment>();
+
+    public virtual ICollection<TbBlog> TbBlogs { get; set; } = new List<TbBlog>();
 
     public virtual ICollection<TbComment> TbComments { get; set; } = new List<TbComment>();
 
@@ -27,5 +35,5 @@ public partial class TbUser
 
     public virtual ICollection<TbLikeHostelList> TbLikeHostelLists { get; set; } = new List<TbLikeHostelList>();
 
-    public virtual ICollection<TbNotifice> TbNotifices { get; set; } = new List<TbNotifice>();
+    public virtual ICollection<TbNoitice> TbNoitices { get; set; } = new List<TbNoitice>();
 }

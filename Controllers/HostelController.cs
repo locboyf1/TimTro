@@ -16,17 +16,15 @@ namespace TimTro.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index(int page = 1)
+        public async Task<IActionResult> Index()
         {
-            var item = _context.TbHostels.Where(i => i.IsApproval).Where(i => i.IsShow).OrderByDescending(i => i.UploadDate).Include(i => i.TbImageHostels).Include(i => i.IduserNavigation).ToList();
+            var item = _context.TbHostels.Where(i => i.IsApproval).Where(i => i.IsShow).OrderByDescending(i => i.UploadDate).Include(i => i.IduserNavigation).ToList();
 
-            ViewBag.page = page;
-            ViewBag.TotalPages = (int)Math.Ceiling((double)item.ToList().Count / pageSize);
             return await Task.FromResult<IActionResult>(View(item));
         }
 
         [HttpPost]
-        public async Task<IActionResult> Index(string priceRange, string areaRange, string province, string district, string ward, int IsPrivate, int IsHasParkingLot, int page = 1)
+        public async Task<IActionResult> Index(string priceRange, string areaRange, int province, int district, string ward, int IsPrivate, int IsHasParkingLot)
         {
             int minArea = 0;
             int maxArea = 150;
@@ -65,12 +63,12 @@ namespace TimTro.Controllers
                 }
             }
 
-            var item = _context.TbHostels.Where(i => i.IsShow).Where(i => i.Price >= minPrice && i.Price <= maxPrice).Where(i => i.Area >= minArea && i.Area <= maxArea).Where(i => i.IsApproval).OrderByDescending(i => i.UploadDate).Include(i => i.TbImageHostels).Include(i => i.IduserNavigation).AsQueryable();
+            var item = _context.TbHostels.Where(i => i.IsShow).Where(i => i.Price >= minPrice && i.Price <= maxPrice).Where(i => i.Area >= minArea && i.Area <= maxArea).Where(i => i.IsApproval).OrderByDescending(i => i.UploadDate).Include(i => i.IduserNavigation).AsQueryable();
 
-            if (!string.IsNullOrEmpty(province))
+            if (province != null && province != 0)
                 item = item.Where(h => h.Province == province);
 
-            if (!string.IsNullOrEmpty(district))
+            if (district != null && district != 0)
                 item = item.Where(h => h.District == district);
 
             if (!string.IsNullOrEmpty(ward))
@@ -86,10 +84,7 @@ namespace TimTro.Controllers
             else if (IsHasParkingLot == 2)
                 item = item.Where(h => h.IsHasParkingLot == false);
 
-            var hostel = item.Skip((page - 1) * pageSize).Take(pageSize).ToList();
-
-            ViewBag.page = page;
-            ViewBag.TotalPages = (int)Math.Ceiling((double)item.ToList().Count / pageSize);
+            var hostel = item.ToList();
 
             return await Task.FromResult<IActionResult>(View(hostel));
         }

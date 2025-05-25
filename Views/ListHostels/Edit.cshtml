@@ -1,0 +1,128 @@
+﻿@model TimTro.Models.TbHostel
+@using TimTro.Utilities;
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Edit</h1>
+
+<div class="formpage">
+    <div class="container ">
+        <div class="text">
+            Sửa trọ
+        </div>
+        <form asp-action="Edit" method="post" enctype="multipart/form-data">
+            <input asp-for="Idhostel" type="number" hidden required>
+            <input asp-for="Iduser" type="number" hidden required>
+            @* <input asp-for="Image" value="@Model.Image" type="text" hidden> *@
+            @* <input asp-for="ImageType" value="@Model.ImageType" type="text" hidden> *@
+            <input asp-for="UploadDate" type="date" hidden required>
+            <div class="form-row">
+                <div class="input-data">
+                    <input asp-for="Title" type="text" required>
+                    <div class="underline"></div>
+                    <label for="">Tiêu đề</label>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="input-data">
+                    <input asp-for="AddressDetail" type="text" required>
+                    <div class="underline"></div>
+                    <label for="">Địa chỉ chi tiết</label>
+                </div>
+            </div>
+            <div class="form-row">
+                <div>
+                    <select asp-for="Province" id="province" class="nice-select" data-selected="@Model.Province">
+                        <option value="">Chọn tỉnh/thành phố</option>
+                    </select>
+                </div>
+                <div>
+                    <select asp-for="District" class="nice-select" id="district" data-selected="@Model.District">
+                        <option value="">Chọn quận/huyện</option>
+                    </select>
+                </div>
+                <div>
+                    <select asp-for="Ward" class="nice-select" id="ward" data-selected="@Model.Ward">
+                        <option value="">Chọn phường/xã</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="input-data">
+                    <input asp-for="Price" type="number" required>
+                    <div class="underline"></div>
+                    <label for="">Giá</label>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="input-data">
+                    <input asp-for="Area" type="number" required>
+                    <div class="underline"></div>
+                    <label for="">Diện tích (m²)</label>
+                </div>
+            </div>
+            <div class="form-row form-select">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsPrivate" /> Khép kín
+                </label>
+
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsHasParkingLot" /> Có chỗ để xe
+                </label>
+
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsShow" /> Hiện
+                </label>
+            </div>
+
+            <div class="form-row">
+                <div class="input-data textarea">
+                    <textarea asp-for="Description" rows="8" cols="80" required></textarea>
+                    <br />
+                    <div class="underline"></div>
+                    <label for="">Mô tả</label>
+                    <br />
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Ảnh hiện tại:</label><br />
+                <img id="preview"
+                     src="@(Model.Image != null ? Images.ConvertToBase64Src(Model.Image, Model.ImageType) : "/images/no-image.png")"
+                     style="width: 200px; height: 150px; object-fit: cover; border-radius: 5px;" />
+                <br />
+                <input type="file" name="img" accept="image/*" class="form-control mt-2" onchange="previewImage(event)" />
+            </div>
+            <div class="form-row submit-btn">
+                <div class="input-data">
+                    <div class="inner"></div>
+                    <input type="submit" value="Lưu">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div>
+    <a asp-action="Index">Quay lại danh sách</a>
+</div>
+
+@section Scripts {
+    @{
+        <script>
+            function previewImage(event) {
+                const reader = new FileReader();
+                reader.onload = function () {
+                    const output = document.getElementById('preview');
+                    output.src = reader.result;
+                };
+                reader.readAsDataURL(event.target.files[0]);
+            }
+        </script>
+
+
+    }
+}

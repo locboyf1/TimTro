@@ -1,6 +1,7 @@
 ﻿@model List<TbHostel>
+@using TimTro.Utilities;
 @{
-
+    ViewBag.Active = "timtro";
 }
 <!-- Map Section Begin -->
 <div class="map">
@@ -31,46 +32,46 @@
         <div class="row">
             <div class="col-lg-3">
                 <div class="property-sidebar">
-                    <h4>Search Property</h4>
-                    <form action="#" class="sidebar-search">
+                    <h4>Tìm trọ</h4>
+                    <form asp-action="Index" method="post" class="sidebar-search">
 
                         <select id="province" name="province">
                             <option value="">Chọn tỉnh/thành phố</option>
                         </select>
 
-                        <select id="district">
+                        <select id="district" name="district">
                             <option value="">Chọn quận/huyện</option>
                         </select>
 
-                        <select id="ward">
+                        <select id="ward" name="ward">
                             <option value="">Chọn phường/xã</option>
                         </select>
 
-                        <select>
-                            <option value="">Khép kín/không</option>
+                        <select name="IsPrivate">
+                            <option value="0">Khép kín/không</option>
                             <option value="1">Khép kín</option>
-                            <option value="0">Không khép kín</option>
+                            <option value="2">Không khép kín</option>
                         </select>
-                        <select>
-                            <option value="">Có/không chỗ để xe</option>
-                            <option value="0">Không có chỗ để xe</option>
-                            <option value="">Có chỗ để xe</option>
+                        <select name="IsHasParkingLot">
+                            <option value="0">Có/không chỗ để xe</option>
+                            <option value="1">Không có chỗ để xe</option>
+                            <option value="2">Có chỗ để xe</option>
                         </select>
                         <div class="price-range-wrap">
                             <div class="price-text">
                                 <label for="priceRange">Giá:</label>
-                                <input type="text" id="priceRange" style="width:200px" readonly>
+                                <input type="text" id="priceRange" name="priceRange" style="width:200px" readonly>
                             </div>
                             <div id="price-range" class="slider"></div>
                         </div>
                         <div class="room-size-range">
                             <div class="price-text">
                                 <label for="roomsizeRange">Diện tích:</label>
-                                <input type="text" id="roomsizeRange" style="width:165px" readonly>
+                                <input type="text" id="roomsizeRange" name="areaRange" style="width:165px" readonly>
                             </div>
                             <div id="roomsize-range" class="slider"></div>
                         </div>
-                        <button type="submit" class="search-btn">Search Property</button>
+                        <button type="submit" class="search-btn">Tìm kiếm</button>
                     </form>
                     <div class="best-agents">
                         <h4>Best Agents</h4>
@@ -116,7 +117,7 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="property-pic">
-                                        <img src="@item.TbImageHostels.First().Path" alt="">
+                                        <img src="@Images.ConvertToBase64Src(item.Image, item.ImageType)" alt="">
                                     </div>
                                 </div>
                                 <div class="col-md-8">
@@ -135,7 +136,7 @@
                                             <h5>@item.Price VNĐ/Tháng</h5>
                                         </div>
                                         <div class="properties-location">
-                                            <i class="icon_pin"></i> @item.Ward, @item.District, @item.Province
+                                            <i class="icon_pin"></i> @item.Ward, @await Functions.GetNameByType("d", item.District), @await Functions.GetNameByType("p", item.Province)
 
                                         </div>
                                         @if(item.IsPrivate){
@@ -176,12 +177,12 @@
                     }
 
                 </div>
-                <div class="property-pagination">
-                    @for (int i = 1; i <= ViewBag.TotalPages; i++)
-                    {
-                        <a href="/Hostel/Index?page=@i" class="@(ViewBag.page == i ? "active" : "")">@i</a>
-                    }
-                </div>
+                <!--Phân trang-->
+                @* <div class="property-pagination"> *@
+               
+                @*         <a href="/Hostel/Index?page=@i" class="@(ViewBag.page == i ? "active" : "")">@i</a> *@
+              
+                @* </div> *@
 
             </div>
         </div>

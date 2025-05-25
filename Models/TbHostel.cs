@@ -13,7 +13,7 @@ public partial class TbHostel
 
     public int? Iduser { get; set; }
 
-    public string? Discription { get; set; }
+    public string? Description { get; set; }
 
     public int? Area { get; set; }
 
@@ -25,9 +25,9 @@ public partial class TbHostel
 
     public string? Ward { get; set; }
 
-    public string? District { get; set; }
+    public int? District { get; set; }
 
-    public string? Province { get; set; }
+    public int? Province { get; set; }
 
     public string? AddressDetail { get; set; }
 
@@ -37,9 +37,11 @@ public partial class TbHostel
 
     public bool IsAvailable { get; set; }
 
-    public virtual TbUser? IduserNavigation { get; set; }
+    public byte[]? Image { get; set; }
 
-    public virtual ICollection<TbImageHostel> TbImageHostels { get; set; } = new List<TbImageHostel>();
+    public string? ImageType { get; set; }
+
+    public virtual TbUser? IduserNavigation { get; set; }
 
     public virtual ICollection<TbLikeHostelList> TbLikeHostelLists { get; set; } = new List<TbLikeHostelList>();
 }
