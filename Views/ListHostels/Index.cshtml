@@ -58,7 +58,6 @@
                     </td>
                     <td>
 
-
                         @if (!item.IsShow)
                         {
                             <a asp-action="ChangeToShow" asp-route-id="@item.Idhostel">Hiện trọ</a>
@@ -68,7 +67,7 @@
                             <a asp-action="ChangeToHide" asp-route-id="@item.Idhostel">Ẩn trọ</a>
                         }
                         <a asp-action="Edit" asp-route-id="@item.Idhostel">Sửa</a>
-                        <a asp-action="Details" asp-route-id="@item.Idhostel">Details</a>
+                        <a asp- asp-action="Detail" asp-route-id="@item.Idhostel">Xem</a>
                         <a asp-action="Delete" asp-route-id="@item.Idhostel">Delete</a>
                     </td>
                 </tr>

@@ -1,0 +1,323 @@
+﻿@model TbHostel
+@using TimTro.Utilities;
+@using TimTro.Models;
+@{
+    TbReview review = Model.TbReviews.FirstOrDefault(items => items.Idhostel == Model.Idhostel && items.Iduser == Functions.userid);
+}
+<!-- Property Details Hero Section Begin -->
+<section class="pd-hero-section set-bg" data-setbg="@Images.ConvertToBase64Src(Model.Image, Model.ImageType)">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2">
+                <div class="pd-hero-text">
+                    <p class="room-location"><i class="icon_pin"></i> @Model.AddressDetail, @Model.Ward, @await Functions.GetNameByType("d", Model.District), @await Functions.GetNameByType("p", Model.Province )   </p>
+                    <h2>@Model.Title</h2>
+                    <div class="room-price">
+                        <span>Giá phòng:</span>
+                        <p>@Model.Price</p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Property Details Hero Section Begin -->
+<!-- Property Details Section Begin -->
+<section class="property-details-section spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-9">
+                <div class="pd-details-text">
+                    <div class="pd-details-social">
+                        <a href="#"><i class="fa fa-facebook"></i></a>
+                        <a href="#"><i class="fa fa-send"></i></a>
+                        <a href="#"><i class="fa fa-star"></i></a>
+                        <a href="#"><i class="fa fa-print"></i></a>
+                        <a href="#"><i class="fa fa-cloud-download"></i></a>
+                    </div>
+                    <div class="property-more-pic">
+                        <div class="product-pic-zoom">
+                            <img class="product-big-img" src="@Images.ConvertToBase64Src(Model.Image, Model.ImageType)" alt="">
+                        </div>
+
+                    </div>
+
+                    <div class="pd-details-tab">
+                        <div class="tab-item">
+                            <ul class="nav" role="tablist">
+                                <li>
+                                    <a class="active" data-toggle="tab" href="#tab-1" role="tab">Thông tin trọ</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="tab-item-content">
+                            <div class="tab-content">
+                                <div class="tab-pane fade-in active" id="tab-1" role="tabpanel">
+                                    <div class="property-more-table">
+                                        <table class="left-table">
+                                            <tbody>
+                                                <tr>
+                                                    <td class="pt-name">Địa chỉ phường, xã</td>
+                                                    <td class="p-value">@await Functions.GetNameByType("p", Model.Province), @await Functions.GetNameByType("d", Model.District), @Model.Ward</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="pt-name">Số nhà, tên đường, ngõ, ....</td>
+                                                    <td class="p-value">@Model.AddressDetail</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="pt-name">Giá phòng</td>
+                                                    <td class="p-value">@Model.Price</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="pt-name">Diện tích</td>
+                                                    <td class="p-value">@Model.Area m²</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="pt-name">Chỗ để xe</td>
+                                                    <td class="p-value">@(Model.IsHasParkingLot ? "Có" : "Không có")</td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+                                        <table class="right-table">
+                                            <tbody>
+                                                <tr>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="property-map">
+                        <h4>Map</h4>
+                        <div class="map-inside">
+                            <div id="map" style="height: 250px; width: 100%; margin-bottom: 15px;"></div>
+                            <a href="https://www.google.com/maps/dir/?api=1&destination=@Model.Latitude,@Model.Longitude" target="_blank" class="btn btn-success w-100">
+                                <i class="fa fa-location-arrow"></i> Chỉ đường
+                            </a>
+                        </div>
+                    </div>
+                    <div class="property-contactus">
+                        <h4>Chủ trọ</h4>
+                        <div class="row">
+                            <div class="col-lg-5">
+                                <div class="agent-desc">
+                                    <img src="@Images.ConvertToBase64Src(Model.Image, Model.ImageType)" style="min-width: 1px; border-radius: 100%;" width="100" height="100" alt="">
+                                    <div class="agent-title">
+                                        <h5>@Model.IduserNavigation.Name</h5>
+                                        <span>Chủ trọ</span>
+                                    </div>
+                                    <div class="agent-social">
+                                        <a href="#"><i class="fa fa-facebook"></i></a>
+                                        <a href="#"><i class="fa fa-twitter"></i></a>
+                                        <a href="#"><i class="fa fa-google-plus"></i></a>
+                                        <a href="#"><i class="fa fa-envelope"></i></a>
+                                    </div>
+                                    <p>
+                                        Bạn có thể để lại đánh giá về phòng trọ để chủ trọ xem xét nâng cấp, khắc phục các điểm chưa tốt của phòng trọ.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 offset-lg-1">
+                                <h4>Đánh giá</h4>
+
+                                @if (review == null)
+                                {
+                                    <form asp-action="Review" class="agent-contact-form">
+                                        <input type="number" name="id" value="@Model.Idhostel" hidden />
+                                        @if (Functions.IsLogin())
+                                        {
+                                            <select name="star">
+                                                <option value="5">5 ★</option>
+                                                <option value="4">4 ★</option>
+                                                <option value="3">3 ★</option>
+                                                <option value="2">2 ★</option>
+                                                <option value="1">1 ★</option>
+                                            </select>
+                                        }
+                                        <textarea name="content" placeholder="Nhập nội dung" @(!Functions.IsLogin() ? "hidden" : "")></textarea>
+                                        <button type="submit" class="site-btn">@(Functions.IsLogin() ? "Gửi đánh giá": "Đăng nhập")</button>
+                                    </form>
+                                }
+                                else
+                                {
+                                    <div class="reviewbox">
+                                        <img src="@Images.ConvertToBase64Src(Model.IduserNavigation.Avatar, Model.IduserNavigation.AvatarType)" width="100px" height="100px" style="border-radius: 100%;" />
+                                        <h5>@Model.IduserNavigation.Name</h5>
+                                        <div class="star">
+                                            @for (int i = 1; i <= review.Star; i++)
+                                            {
+                                                <i class="fa fa-star"></i>
+                                            }
+                                            @for (int i = 1; i <= 5 - review.Star; i++)
+                                            {
+                                                <i class="fa fa-star-o"></i>
+                                            }
+                                        </div>
+                                        <p>@Html.Raw(review.Review)</p>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="property-sidebar">
+                    <h4>Search Property</h4>
+                    <form action="#" class="sidebar-search">
+                        <input type="number" name="id" value="@Model.Idhostel" hidden>
+                        @if (Functions.userrole == 2)
+                        {
+                            if (Model.IsApproval)
+                            {
+                                <button asp-area="Admin"
+                                        asp-controller="Home"
+                                        asp-action="Approval"
+                                        type="submit" class="search-btn mt-3" style="background-color: red;">
+                                    Hủy duyệt
+                                </button>
+                            }
+                            else
+                            {
+                                <button asp-area="Admin"
+                                        asp-controller="Home"
+                                        asp-action="Approval" type="submit" class="search-btn mt-3" style="background-color: green;">
+                                    Duyệt
+                                </button>
+                            }
+                        }
+                        @if (Functions.userid == Model.Iduser)
+                        {
+                            <button asp-controller="ListHostels"
+                                    asp-action="Edit" type="submit" class="search-btn mt-3" style="background-color: aquamarine;">
+                                Chỉnh sửa
+                            </button>
+
+                        }
+                        else
+                        {
+                            <button type="submit" class="search-btn mt-3">Liên lạc với chủ trọ</button>
+
+                        }
+                    </form>
+                    <div class="best-agents">
+                        <h4>Best Agents</h4>
+                        <a href="#" class="ba-item">
+                            <div class="ba-pic">
+                                <img src="/assets/img/properties/best-agent-1.jpg" alt="">
+                            </div>
+                            <div class="ba-text">
+                                <h5>Lester Bradley</h5>
+                                <span>Company Agents</span>
+                                <p class="property-items">6 property </p>
+                            </div>
+                        </a>
+                        <a href="#" class="ba-item">
+                            <div class="ba-pic">
+                                <img src="/assets/img/properties/best-agent-2.jpg" alt="">
+                            </div>
+                            <div class="ba-text">
+                                <h5>Janie Blair</h5>
+                                <span>Company Agents</span>
+                                <p class="property-items">6 property </p>
+                            </div>
+                        </a>
+                        <a href="#" class="ba-item">
+                            <div class="ba-pic">
+                                <img src="/assets/img/properties/best-agent-3.jpg" alt="">
+                            </div>
+                            <div class="ba-text">
+                                <h5>Sophia Cole</h5>
+                                <span>Marketing & Ceo</span>
+                                <p class="property-items">6 property </p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Property Details Section End -->
+<!-- Partner Carousel Section Begin -->
+<div class="partner-section">
+    <div class="container">
+        <div class="partner-carousel owl-carousel">
+            <a href="#" class="partner-logo">
+                <div class="partner-logo-tablecell">
+                    <img src="/assets/img/partner/partner-1.png" alt="">
+                </div>
+            </a>
+            <a href="#" class="partner-logo">
+                <div class="partner-logo-tablecell">
+                    <img src="/assets/img/partner/partner-2.png" alt="">
+                </div>
+            </a>
+            <a href="#" class="partner-logo">
+                <div class="partner-logo-tablecell">
+                    <img src="/assets/img/partner/partner-3.png" alt="">
+                </div>
+            </a>
+            <a href="#" class="partner-logo">
+                <div class="partner-logo-tablecell">
+                    <img src="/assets/img/partner/partner-4.png" alt="">
+                </div>
+            </a>
+            <a href="#" class="partner-logo">
+                <div class="partner-logo-tablecell">
+                    <img src="/assets/img/partner/partner-5.png" alt="">
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+<!-- Partner Carousel Section End -->
+@section Scripts {
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const accessToken = '@ViewData["MapboxToken"]';
+            const lat = @Model.Latitude.Value.ToString(System.Globalization.CultureInfo.InvariantCulture);
+            const lng = @Model.Longitude.Value.ToString(System.Globalization.CultureInfo.InvariantCulture);
+
+            // Khởi tạo bản đồ
+            const map = L.map('map', {
+                scrollWheelZoom: false // Tắt zoom bằng con lăn chuột để không bị kẹt khi cuộn trang
+            }).setView([lat, lng], 16);
+
+            // Thêm lớp nền bản đồ
+            L.tileLayer(`https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=${accessToken}`, {
+                attribution: '...', // Giống các trang trước
+                maxZoom: 18,
+                id: 'mapbox/streets-v11'
+            }).addTo(map);
+
+            // Đặt một marker duy nhất tại vị trí phòng trọ
+            L.marker([lat, lng]).addTo(map)
+                .bindPopup('@Model.Title').openPopup();
+        });
+    </script>
+}
+
+<style>
+    .reviewbox {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-direction: column;
+        height: 300px;
+        width: 100%;
+    }
+
+    .reviewbox .star{
+        width: 60%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            
+        }
+</style>

@@ -1,19 +1,25 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using TimTro.Configurations;
 using TimTro.Models;
+using TimTro.Utilities;
 
 namespace TimTro.Controllers
 {
     public class HostelController : Controller
     {
+        private readonly string _mapboxToken;
         private readonly HostelContext _context;
-        int pageSize = 10; // Số lượng item trên mỗi trang
-        public HostelController(HostelContext context)
+        int pageSize = 10;
+        public HostelController(HostelContext context, IOptions<MapboxSettings> mapboxSettings)
         {
 
             _context = context;
+            _mapboxToken = mapboxSettings.Value.AccessToken;
         }
 
         public async Task<IActionResult> Index()
@@ -87,6 +93,53 @@ namespace TimTro.Controllers
             var hostel = item.ToList();
 
             return await Task.FromResult<IActionResult>(View(hostel));
+        }
+
+        [Route("Hostel/{id}.html")]
+        public async Task<IActionResult> Detail(int id)
+        {
+            var hostel = await _context.TbHostels.Include(h => h.IduserNavigation).Include(i => i.TbReviews).FirstOrDefaultAsync(h => h.Idhostel == id);
+            if (hostel == null)
+            {
+                return NotFound();
+            }
+            if ((!hostel.IsApproval || !hostel.IsShow) && Functions.userrole != 2 && hostel.Iduser != Functions.userid)
+            {
+                return NotFound();
+            }
+            ViewData["MapboxToken"] = _mapboxToken;
+            return View(hostel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Review(int id, int star = 0, string content = "")
+        {
+            if (!Functions.IsLogin())
+            {
+                Functions.returnlink = $"/hostel/{id}.html";
+                return RedirectToAction("Index", "Login");
+            }
+            var check = _context.TbReviews.FirstOrDefault(i => i.Idhostel == id && i.Iduser == Functions.userid);
+            if (check != null)
+            {
+                check.Star = star;
+                check.Review = content;
+                _context.TbReviews.Update(check);
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                var review = new TbReview
+                {
+                    Iduser = Functions.userid,
+                    Idhostel = id,
+                    Star = star,
+                    Review = content
+                };
+                _context.TbReviews.Add(review);
+                await _context.SaveChangesAsync();
+            }
+            return Redirect($"/hostel/{id}.html");
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.Extensions.Options;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,16 +10,22 @@ using Microsoft.Identity.Client;
 using SixLabors.ImageSharp;
 using TimTro.Models;
 using TimTro.Utilities;
+using TimTro.Configurations;
 
 namespace TimTro.Controllers
 {
+
     public class ListHostelsController : Controller
     {
         private readonly HostelContext _context;
+        private readonly IConfiguration _configuration;
+        private readonly string _mapboxToken;
 
-        public ListHostelsController(HostelContext context)
+        public ListHostelsController(HostelContext context, IConfiguration configuration, IOptions<MapboxSettings> mapboxSettings)
         {
             _context = context;
+            _configuration = configuration;
+            _mapboxToken = mapboxSettings.Value.AccessToken;
         }
 
         // GET: TbHostels
@@ -38,7 +45,8 @@ namespace TimTro.Controllers
             }
         }
 
-        // GET: TbHostels/Details/5
+
+
         public async Task<IActionResult> Details(int? id)
         {
             if (!Functions.IsLogin())
@@ -60,7 +68,8 @@ namespace TimTro.Controllers
             {
                 return NotFound();
             }
-
+            ViewData["MapboxToken"] = _mapboxToken;
+    
             return View(tbHostel);
         }
 
@@ -74,6 +83,8 @@ namespace TimTro.Controllers
             }
             Functions.returnlink = string.Empty;
 
+            ViewData["MapboxToken"] = _mapboxToken;
+
             return View();
         }
 
@@ -82,7 +93,7 @@ namespace TimTro.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Idhostel,Title,Price,Iduser,Description,Area,IsPrivate,IsHasParkingLot,UploadDate,Ward,District,Province,AddressDetail,IsShow,IsApproval,IsAvailable")] TbHostel tbHostel, IFormFile img)
+        public async Task<IActionResult> Create([Bind("Idhostel,Title,Price,Iduser,Description,Area,IsPrivate,IsHasParkingLot,UploadDate,Ward,District,Province,AddressDetail,IsShow,IsApproval,IsAvailable, Longitude, Latitude")] TbHostel tbHostel, IFormFile img)
         {
             if (!Functions.IsLogin())
             {

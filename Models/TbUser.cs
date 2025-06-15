@@ -23,6 +23,8 @@ public partial class TbUser
 
     public int? RoleId { get; set; }
 
+    public bool IsLock { get; set; }
+
     public virtual TbRole? Role { get; set; }
 
     public virtual ICollection<TbBlogComment> TbBlogComments { get; set; } = new List<TbBlogComment>();
@@ -36,4 +38,6 @@ public partial class TbUser
     public virtual ICollection<TbLikeHostelList> TbLikeHostelLists { get; set; } = new List<TbLikeHostelList>();
 
     public virtual ICollection<TbNoitice> TbNoitices { get; set; } = new List<TbNoitice>();
+
+    public virtual ICollection<TbReview> TbReviews { get; set; } = new List<TbReview>();
 }

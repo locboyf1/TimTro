@@ -31,6 +31,8 @@ public partial class HostelContext : DbContext
 
     public virtual DbSet<TbNoitice> TbNoitices { get; set; }
 
+    public virtual DbSet<TbReview> TbReviews { get; set; }
+
     public virtual DbSet<TbRole> TbRoles { get; set; }
 
     public virtual DbSet<TbUser> TbUsers { get; set; }
@@ -189,6 +191,26 @@ public partial class HostelContext : DbContext
             entity.HasOne(d => d.User).WithMany(p => p.TbNoitices)
                 .HasForeignKey(d => d.UserId)
                 .HasConstraintName("FK_tb_Noitice_tb_User");
+        });
+
+        modelBuilder.Entity<TbReview>(entity =>
+        {
+            entity.HasKey(e => new { e.Idhostel, e.Iduser });
+
+            entity.ToTable("TB_Review");
+
+            entity.Property(e => e.Idhostel).HasColumnName("IDHostel");
+            entity.Property(e => e.Iduser).HasColumnName("IDUser");
+
+            entity.HasOne(d => d.IdhostelNavigation).WithMany(p => p.TbReviews)
+                .HasForeignKey(d => d.Idhostel)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_TB_Review_tb_Hostel");
+
+            entity.HasOne(d => d.IduserNavigation).WithMany(p => p.TbReviews)
+                .HasForeignKey(d => d.Iduser)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_TB_Review_tb_User");
         });
 
         modelBuilder.Entity<TbRole>(entity =>

@@ -113,6 +113,7 @@
                 <div class="property-list">
                     @foreach (var item in Model)
                     {
+                        string URL = $"Hostel/{item.Idhostel}.html";
                         <div class="single-property-item">
                             <div class="row">
                                 <div class="col-md-4">
@@ -130,7 +131,7 @@
                                         {
                                             <div class="f-text">Hết phòng</div>
                                         }
-                                        <h5 class="r-title">@item.Title</h5>
+                                        <a href="@URL"> <h5 class="r-title">@item.Title</h5></a>
                                         <div class="room-price">
                                             <span>Giá thuê:</span>
                                             <h5>@item.Price VNĐ/Tháng</h5>

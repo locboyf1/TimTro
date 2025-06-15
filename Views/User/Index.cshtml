@@ -1,7 +1,5 @@
 ﻿@model TbUser
-@{
-
-}
+@using TimTro.Utilities;
 
 <!-- Property Section Begin -->
 <section class="property-section spad">
@@ -14,24 +12,21 @@
                     <div class="card card-primary card-outline">
                         <div class="card-body box-profile">
                             <div class="text-center">
-                                <img class="profile-user-img img-fluid img-circle"
-                                     src="/@Model.Avatar"
+                                <img class="profile-user-img img-circle"
+                                     src="@Images.ConvertToBase64Src(Model.Avatar, Model.AvatarType)" width="150px" height="150px"
                                      alt="User profile picture" style="border-radius: 50%">
                             </div>
 
-                            <h3 class="profile-username text-center">Nina Mcintire</h3>
+                            <h3 class="profile-username text-center">@Model.Name</h3>
 
-                            <p class="text-muted text-center">Software Engineer</p>
+                            <p class="text-muted text-center">Chủ trọ</p>
 
                             <ul class="list-group list-group-unbordered mb-3">
                                 <li class="list-group-item">
                                     <b>Số lượng trọ</b> <a class="float-right">@Model.TbHostels.Count()</a>
                                 </li>
                                 <li class="list-group-item">
-                                    <b>Following</b> <a class="float-right">@Model.TbHostels.Count()</a>
-                                </li>
-                                <li class="list-group-item">
-                                    <b>Friends</b> <a class="float-right">13,287</a>
+                                    <b>Lượt thích</b> <a class="float-right">@Model.TbHostels.Sum(i=>i.TbLikeHostelLists.Count())</a>
                                 </li>
                             </ul>
 
@@ -84,7 +79,7 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="property-pic">
-                                        <img src="/@item.Image" alt="">
+                                        <img src="@Images.ConvertToBase64Src(item.Image, item.ImageType)" alt="">
                                     </div>
                                 </div>
                                 <div class="col-md-8">

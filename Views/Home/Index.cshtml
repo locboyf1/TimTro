@@ -13,106 +13,13 @@
 <section class="hero-section">
     <div class="hero-items owl-carousel">
         <div class="single-hero-item set-bg" data-setbg="/assets/img/hero/hero-1.jpg">
-            @* <div class="container"> *@
-            @*     <div class="row"> *@
-            @*         <div class="col-lg-8 offset-lg-2"> *@
-            @*             <div class="hero-text"> *@
-            @*                 <p class="room-location"><i class="icon_pin"></i> 9721 Glen Creek Ave. Ballston Spa, NY</p> *@
-            @*                 <h2>Villa 9721 Glen Creek</h2> *@
-            @*                 <div class="room-price"> *@
-            @*                     <span>Start Form:</span> *@
-            @*                     <p>1.000.000 VNĐ</p> *@
-            @*                 </div> *@
-            @*                 <ul class="room-features"> *@
-            @*                     <li> *@
-            @*                         <i class="fa fa-arrows"></i> *@
-            @*                         <p>5201 sqft</p> *@
-            @*                     </li> *@
-            @*                     <li> *@
-            @*                         <i class="fa fa-bed"></i> *@
-            @*                         <p>8 Bed Room</p> *@
-            @*                     </li> *@
-            @*                     <li> *@
-            @*                         <i class="fa fa-bath"></i> *@
-            @*                         <p>7 Baths Bed</p> *@
-            @*                     </li> *@
-            @*                     <li> *@
-            @*                         <i class="fa fa-car"></i> *@
-            @*                         <p>1 Garage</p> *@
-            @*                     </li> *@
-            @*                 </ul> *@
-            @*             </div> *@
-            @*         </div> *@
-            @*     </div> *@
-            @* </div> *@
+
         </div>
         <div class="single-hero-item set-bg" data-setbg="/assets/img/hero/hero-2.jpg">
-            @* <div class="container"> *@
-            @*     <div class="row"> *@
-            @*         <div class="col-lg-8 offset-lg-2"> *@
-            @*             <div class="hero-text"> *@
-            @*                 <p class="room-location"><i class="icon_pin"></i> 9721 Glen Creek Ave. Ballston Spa, NY</p> *@
-            @*                 <h2>Villa 9721 Glen Creek</h2> *@
-            @*                 <div class="room-price"> *@
-            @*                     <span>Start Form:</span> *@
-            @*                     <p>$3.000.000</p> *@
-            @*                 </div> *@
-            @*                 <ul class="room-features"> *@
-            @*                     <li> *@
-            @*                         <i class="fa fa-arrows"></i> *@
-            @*                         <p>5201 sqft</p> *@
-            @*                     </li> *@
-            @*                     <li> *@
-            @*                         <i class="fa fa-bed"></i> *@
-            @*                         <p>8 Bed Room</p> *@
-            @*                     </li> *@
-            @*                     <li> *@
-            @*                         <i class="fa fa-bath"></i> *@
-            @*                         <p>7 Baths Bed</p> *@
-            @*                     </li> *@
-            @*                     <li> *@
-            @*                         <i class="fa fa-car"></i> *@
-            @*                         <p>1 Garage</p> *@
-            @*                     </li> *@
-            @*                 </ul> *@
-            @*             </div> *@
-            @*         </div> *@
-            @*     </div> *@
-            @* </div> *@
+
         </div>
         <div class="single-hero-item set-bg" data-setbg="/assets/img/hero/hero-3.jpg">
-            @* <div class="container"> *@
-            @*     <div class="row"> *@
-            @*         <div class="col-lg-8 offset-lg-2"> *@
-            @*             <div class="hero-text"> *@
-            @*                 <p class="room-location"><i class="icon_pin"></i> 9721 Glen Creek Ave. Ballston Spa, NY</p> *@
-            @*                 <h2>Villa 9721 Glen Creek</h2> *@
-            @*                 <div class="room-price"> *@
-            @*                     <span>Start Form:</span> *@
-            @*                     <p>$3.000.000</p> *@
-            @*                 </div> *@
-            @*                 <ul class="room-features"> *@
-            @*                     <li> *@
-            @*                         <i class="fa fa-arrows"></i> *@
-            @*                         <p>5201 sqft</p> *@
-            @*                     </li> *@
-            @*                     <li> *@
-            @*                         <i class="fa fa-bed"></i> *@
-            @*                         <p>8 Bed Room</p> *@
-            @*                     </li> *@
-            @*                     <li> *@
-            @*                         <i class="fa fa-bath"></i> *@
-            @*                         <p>7 Baths Bed</p> *@
-            @*                     </li> *@
-            @*                     <li> *@
-            @*                         <i class="fa fa-car"></i> *@
-            @*                         <p>1 Garage</p> *@
-            @*                     </li> *@
-            @*                 </ul> *@
-            @*             </div> *@
-            @*         </div> *@
-            @*     </div> *@
-            @* </div> *@
+
         </div>
     </div>
     <div class="thumbnail-pic">
@@ -245,9 +152,10 @@
             <div class="feature-carousel owl-carousel">
                 @foreach (var item in Model)
                 {
+                    string URL = $"Hostel/{item.Idhostel}.html";
                     <div class="col-lg-4">
                         <div class="feature-item">
-                            <div class="fi-pic set-bg" data-setbg="@item.Image">
+                            <div class="fi-pic set-bg" data-setbg="@Images.ConvertToBase64Src(item.Image, item.ImageType)">
                                 <div class="pic-tag">
                                     @if (!item.IsAvailable)
                                     {
@@ -261,7 +169,7 @@
                                 </div>
                                 <div class="feature-author">
                                     <div class="fa-pic">
-                                        <img src="@item.IduserNavigation.Avatar" alt="">
+                                        <img src="@Images.ConvertToBase64Src(item.IduserNavigation.Avatar, item.IduserNavigation.AvatarType)" alt="">
                                     </div>
                                     <div class="fa-text">
                                         <span>@item.IduserNavigation.Name</span>
@@ -270,9 +178,9 @@
                             </div>
                             <div class="fi-text">
                                 <div class="inside-text">
-                                    <h4>@item.Title</h4>
+                                    <h4><a style="color: black" href="@URL">@item.Title</a></h4>
                                     <ul>
-                                        <li><i class="fa fa-map-marker"></i>@item.Ward, @item.District, @item.Province</li>
+                                        <li><i class="fa fa-map-marker"></i>@item.Ward, @await Functions.GetNameByType("d" ,item.District), @await Functions.GetNameByType("p", item.Province)</li>
                                         @if (item.IsPrivate)
                                         {
                                             <li><i class="fa fa-tag"></i>Khép kín</li>
@@ -334,94 +242,56 @@
             <div class="col-lg-12">
                 <div class="properties-title">
                     <div class="section-title">
-                        <span>Top Property For You</span>
-                        <h2>Top Properties</h2>
+                        <span>Những phòng trọ được đánh giá cao nhất</span>
+                        <h2>Trọ nổi bật</h2>
                     </div>
-                    <a href="#" class="top-property-all">View All Property</a>
+                    <a href="/hostel" class="top-property-all">Xem tất cả phòng trọ</a>
                 </div>
             </div>
         </div>
     </div>
     <div class="container">
         <div class="top-properties-carousel owl-carousel">
-            <div class="single-top-properties">
+            @foreach(var item in Model.OrderByDescending(i=>i.TbReviews.Where(i=>i.Star == 5).Count()).Take(5))
+            {<div class="single-top-properties">
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="stp-pic">
-                            <img src="/assets/img/properties/properties-1.jpg" alt="">
+                            <img src="@Images.ConvertToBase64Src(item.Image,item.ImageType)" alt="">
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="stp-text">
-                            <div class="s-text">For Sale</div>
-                            <h2>Villa 9721 Glen Creek</h2>
+                            <div class="@(item.IsAvailable ? "s-text" : "f-text")">@(item.IsAvailable ? "Còn phòng" : "Hết phòng")</div>
+                            <h2>@item.Title</h2>
                             <div class="room-price">
-                                <span>Start From:</span>
-                                <h4>$3.000.000</h4>
+                                <span>Giá: </span>
+                                <h4>@item.Price VNĐ</h4>
                             </div>
-                            <div class="properties-location"><i class="icon_pin"></i> 9721 Glen Creek Ave. Ballston Spa, NY</div>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                                <div class="properties-location"><i class="icon_pin"></i>@item.Ward, @await Functions.GetNameByType("d", item.District), @await Functions.GetNameByType("p", item.Province)</div>
+                            <p>@item.Description</p>
                             <ul class="room-features">
-                                <li>
-                                    <i class="fa fa-arrows"></i>
-                                    <p>5201 sqft</p>
-                                </li>
-                                <li>
-                                    <i class="fa fa-bed"></i>
-                                    <p>8 Bed Room</p>
-                                </li>
-                                <li>
-                                    <i class="fa fa-bath"></i>
-                                    <p>7 Baths Bed</p>
-                                </li>
-                                <li>
-                                    <i class="fa fa-car"></i>
-                                    <p>1 Garage</p>
-                                </li>
+                                    <li>
+                                        <i class="fa fa-arrows"></i>
+                                        <p>@item.Area m²</p>
+                                    </li>
+
+                                    <li>
+                                        <i class="fa fa-motorcycle"></i>
+                                        @if (item.IsHasParkingLot)
+                                        {
+                                            <p>Có chỗ để xe</p>
+                                        }
+                                        else
+                                        {
+                                            <p>Không có chỗ để xe</p>
+                                        }
+                                    </li>
                             </ul>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="single-top-properties">
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="stp-pic">
-                            <img src="/assets/img/properties/properties-2.jpg" alt="">
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="stp-text">
-                            <div class="s-text">For Sale</div>
-                            <h2>Villa 9721 Glen Creek</h2>
-                            <div class="room-price">
-                                <span>Start From:</span>
-                                <h4>$3.000.000</h4>
-                            </div>
-                            <div class="properties-location"><i class="icon_pin"></i> 9721 Glen Creek Ave. Ballston Spa, NY</div>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                            <ul class="room-features">
-                                <li>
-                                    <i class="fa fa-arrows"></i>
-                                    <p>5201 sqft</p>
-                                </li>
-                                <li>
-                                    <i class="fa fa-bed"></i>
-                                    <p>8 Bed Room</p>
-                                </li>
-                                <li>
-                                    <i class="fa fa-bath"></i>
-                                    <p>7 Baths Bed</p>
-                                </li>
-                                <li>
-                                    <i class="fa fa-car"></i>
-                                    <p>1 Garage</p>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            </div>}
         </div>
     </div>
 </div>

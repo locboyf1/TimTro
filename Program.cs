@@ -1,14 +1,17 @@
 using elFinder.NetCore.Models.Commands;
 using Microsoft.EntityFrameworkCore;
 using TimTro.Models;
+using TimTro.Configurations;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
-
 builder.Services.AddHttpClient();
+
+builder.Services.Configure<MapboxSettings>(builder.Configuration.GetSection("Mapbox"));
+
 
 
 builder.Services.AddDbContext<HostelContext>(options =>

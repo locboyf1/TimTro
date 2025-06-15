@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Create";
 }
-@* <link rel="stylesheet" href="/assets/css/style.css" type="text/css"> *@
+
 
 <div class="formpage">
     <div class="container ">
@@ -20,10 +20,11 @@
             </div>
             <div class="form-row">
                 <div class="input-data">
-                    <input asp-for="AddressDetail" type="text" required>
+                    <input asp-for="AddressDetail" id="addressInput" type="text" required>
                     <div class="underline"></div>
                     <label for="">Địa chỉ chi tiết</label>
                 </div>
+                <div id="suggestions" style="position: relative; width: 100%;"></div>
             </div>
             <div class="form-row">
                 <div>
@@ -83,12 +84,24 @@
             </div>
 
             <div class="form-row">
+                <input type="hidden" asp-for="Latitude" id="latitude" />
+                <input type="hidden" asp-for="Longitude" id="longitude" />
+                <div class="mb-2">
+                    <button type="button" id="getLocation" class="btn btn-secondary">Lấy vị trí của tôi</button>
+                    <button type="button" id="recenterBtn" class="btn btn-info">Quay về vị trí ban đầu</button>
+                </div>
+                <div id="map" style="height: 400px; width: 100%;"></div>
+            </div>
+            <div class="form-row">
 
                 <div class="col-3 mb-3 d-flex flex-column align-items-center">
-                    <label style="width: 100px; height: 100px; border: 2px dashed #ccc; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+                    <label
+                        style="width: 100px; height: 100px; border: 2px dashed #ccc; display: flex; align-items: center; justify-content: center; cursor: pointer;">
                         <span id="preview-text-1">+</span>
-                        <img id="preview-img-1" src="#" alt="Preview" style="display:none; width:100%; height:100%; object-fit:cover;" />
-                        <input type="file" name="img" accept="image/*" onchange="previewImage(this, 1)" style="display: none;" required />
+                        <img id="preview-img-1" src="#" alt="Preview"
+                            style="display:none; width:100%; height:100%; object-fit:cover;" />
+                        <input type="file" name="img" accept="image/*" onchange="previewImage(this, 1)"
+                            style="display: none;" required />
                     </label>
                 </div>
             </div>
@@ -106,12 +119,128 @@
     <a asp-action="Index">Quay lại danh sách</a>
 </div>
 
-
 @section Scripts {
     @{
+        // Nạp các script validation của ASP.NET Core
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+
     <script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+        // --- KHAI BÁO BIẾN TOÀN CỤC ---
+        let map = null;                      // Biến lưu đối tượng bản đồ chính
+        let userInitialLocation = null;      // Biến lưu tọa độ ban đầu của người dùng
+        let locationMarker = null;           // Biến lưu marker VỊ TRÍ TRỌ đang được chọn
+
+        // --- HÀM CẬP NHẬT MARKER VÀ FORM ---
+        // Hàm này dùng để cập nhật vị trí trọ, đảm bảo chỉ có 1 marker trên bản đồ
+        function updateLocationMarker(latlng, popupText) {
+            // Cập nhật tọa độ vào các trường input ẩn của form
+            document.getElementById('latitude').value = latlng.lat.toFixed(6);
+            document.getElementById('longitude').value = latlng.lng.toFixed(6);
+
+            // Nếu đã có marker chọn vị trí trọ thì xóa đi
+            if (locationMarker) {
+                map.removeLayer(locationMarker);
+            }
+
+            // Tạo marker mới và gán vào biến locationMarker
+            locationMarker = L.marker([latlng.lat, latlng.lng]).addTo(map)
+                              .bindPopup(popupText || 'Vị trí đã chọn').openPopup();
+        }
+
+
+        // --- HÀM KHỞI TẠO BẢN ĐỒ VÀ CÁC CHỨC NĂNG ---
+        function initializeMap(latitude, longitude, zoom) {
+            const accessToken = '@ViewData["MapboxToken"]';
+
+            if (!accessToken) {
+                console.error("Mapbox Access Token bị thiếu! Hãy kiểm tra lại ViewData.");
+                alert("Lỗi cấu hình bản đồ. Vui lòng liên hệ quản trị viên.");
+                return;
+            }
+
+            // Khởi tạo bản đồ chính
+            map = L.map('map').setView([latitude, longitude], zoom);
+            
+            // Thêm lớp nền bản đồ từ Mapbox
+            L.tileLayer(`https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=${accessToken}`, {
+                attribution: '© <a href="https://www.mapbox.com/about/maps/">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+                maxZoom: 18,
+                id: 'mapbox/streets-v11',
+                accessToken: accessToken
+            }).addTo(map);
+
+            // Thêm chức năng tìm kiếm địa chỉ (Geocoder)
+            const geocoder = L.Control.geocoder({
+                geocoder: new L.Control.Geocoder.Mapbox(accessToken, {
+                    geocodingQueryParams: { country: 'VN' } // Ưu tiên kết quả ở Việt Nam
+                }),
+                defaultMarkGeocode: false, // Tắt tự động tạo marker của plugin
+                placeholder: 'Tìm kiếm địa chỉ...'
+            }).on('markgeocode', function(e) {
+                // Khi người dùng chọn một kết quả
+                map.fitBounds(e.geocode.bbox);
+                updateLocationMarker(e.geocode.center, e.geocode.name);
+            }).addTo(map);
+            
+            // Thêm sự kiện click trên bản đồ
+            map.on('click', function(e) {
+                updateLocationMarker(e.latlng, 'Vị trí đã chọn');
+            });
+        }
+
+
+        // --- LOGIC CHÍNH KHI TẢI TRANG ---
+        // 1. Cố gắng lấy vị trí hiện tại của người dùng
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                // A. Lấy vị trí thành công
+                function(position) {
+                    const userLat = position.coords.latitude;
+                    const userLng = position.coords.longitude;
+                    userInitialLocation = [userLat, userLng]; // Lưu lại vị trí ban đầu
+                    initializeMap(userLat, userLng, 15); // Khởi tạo bản đồ tại vị trí người dùng
+                },
+                // B. Lấy vị trí thất bại
+                function() {
+                    console.warn("Không thể lấy vị trí người dùng. Sử dụng vị trí mặc định.");
+                    initializeMap(21.0285, 105.8542, 13); // Mặc định ở Hà Nội
+                }
+            );
+        } else {
+            // C. Trình duyệt không hỗ trợ
+            console.error("Trình duyệt không hỗ trợ Geolocation.");
+            initializeMap(21.0285, 105.8542, 13); // Mặc định ở Hà Nội
+        }
+
+
+        // Nút "Quay về vị trí ban đầu"
+        document.getElementById('recenterBtn').addEventListener('click', function() {
+            if (map && userInitialLocation) {
+                map.setView(userInitialLocation, 15);
+            } else {
+                alert("Chưa có vị trí ban đầu của bạn. Vui lòng cho phép truy cập vị trí.");
+            }
+        });
+
+        // Nút "Lấy vị trí của tôi" 
+        document.getElementById('getLocation').addEventListener('click', function() {
+             if (map && navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    const lat = position.coords.latitude;
+                    const lng = position.coords.longitude;
+                    map.setView([lat, lng], 15);
+                    userInitialLocation = [lat, lng]; // Cập nhật lại vị trí ban đầu
+                });
+            }
+        });
+    });
+    </script>
+    
+    <script>
+  
         function previewImage(input, index) {
             const file = input.files[0];
             if (file) {

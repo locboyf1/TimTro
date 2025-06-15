@@ -41,7 +41,13 @@ public partial class TbHostel
 
     public string? ImageType { get; set; }
 
+    public double? Latitude { get; set; }
+
+    public double? Longitude { get; set; }
+
     public virtual TbUser? IduserNavigation { get; set; }
 
     public virtual ICollection<TbLikeHostelList> TbLikeHostelLists { get; set; } = new List<TbLikeHostelList>();
+
+    public virtual ICollection<TbReview> TbReviews { get; set; } = new List<TbReview>();
 }

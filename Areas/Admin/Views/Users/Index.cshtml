@@ -1,0 +1,95 @@
+﻿@model List<TimTro.Models.TbUser>
+@using TimTro.Utilities;
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    ViewBag.active = "users";
+
+}
+
+<h1>Index</h1>
+
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Danh sách Người dùng</h3>
+
+                        </div>
+
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            @* <p> *@
+                            @*     <a asp-action="Create">Tạo blog mới</a> *@
+                            @* </p> *@
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 10px">STT</th>
+                                        <th>Tên người dùng</th>
+                                        <th>Ảnh đại diện</th>
+                                        <th>Quyền</th>
+                                        <th>Phân quyền</th>
+                                        <th>Trạng thái</th>
+                                        @* <th style="width: 160px;">Hành động</th> *@
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                                        int i = 1;
+                                    }
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>@(i++)</td>
+                                            <td>@item.Name</td>
+                                            <td><img src="@Images.ConvertToBase64Src(item.Avatar, item.AvatarType)" alt="Image" style="width: 60px; height: 60px;" style="border-radius: 60px" /></td>
+                                            <td>@item.Role.RoleName</td>
+                                            <td>
+                                                <a class="btn btn-outline-success" asp-route-roleId="1" asp-route-id="@item.Iduser" asp-action="ChangeRole">Đổi thành người dùng</a>
+                                                <a class="btn btn-outline-danger" asp-route-roleId="2" asp-route-id="@item.Iduser" asp-action="ChangeRole">Đổi thành quản trị viên</a>
+                                            </td>
+                                            <td>
+                                                <a class="btn @(item.IsLock ? "btn-danger" : "btn-success")" asp-action="LockUnlock" asp-route-id="@item.Iduser"><i class="fas @(item.IsLock ? "fa-user" : "fa-user-lock")"></i></a>
+                                            </td>
+                                            @* <td> *@
+                                            @*     <a asp-action="Edit" class="btn btn-success" asp-route-id="@item.Iduser">Sửa</a> | *@
+                                            @*     <a asp-action="Details" class="btn btn-info" asp-route-id="@item.Iduser">Chi tiết</a> *@
+                                            @* </td> *@
+                                        </tr>
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+                        <div class="card-footer clearfix">
+                            <ul class="pagination pagination-sm m-0 float-right">
+                                <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
+                                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- /.card -->
+                    <!-- /.card -->
+                </div>
+                <!-- /.col -->
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->

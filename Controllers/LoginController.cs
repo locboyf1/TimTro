@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using elFinder.NetCore;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Razor.TagHelpers;
+using System;
+using System.IO;
 using TimTro.Models;
 using TimTro.Utilities;
 
@@ -8,10 +12,12 @@ namespace TimTro.Controllers
     {
 
         private readonly HostelContext _context;
+        private readonly IWebHostEnvironment _env;
 
-        public LoginController(HostelContext context)
+        public LoginController(HostelContext context, IWebHostEnvironment env)
         {
             _context = context;
+            _env = env;
         }
 
         public IActionResult Index()
@@ -29,6 +35,10 @@ namespace TimTro.Controllers
                 Functions.message = "Sai số điện thoại hoặc mật khẩu";
                 return Redirect("/login");
 
+            }
+            else if (check.IsLock) {
+                Functions.message = "Tài khoản bạn đã bị khóa";
+                return Redirect("/login");
             }
             else
             {
@@ -53,6 +63,10 @@ namespace TimTro.Controllers
 
         public IActionResult Register(string phone, string name, string password)
         {
+            var relativePath = Path.Combine("assets/img/", "default-avatar.jpg");
+            var absolutePath = Path.Combine(_env.WebRootPath, relativePath);
+            byte[] imageBytes = System.IO.File.ReadAllBytes(absolutePath);
+
             string md5pass = Functions.MD5Password(password);
             var check = _context.TbUsers.FirstOrDefault(i => i.Phone == phone);
             if (check != null)
@@ -67,7 +81,10 @@ namespace TimTro.Controllers
                     RoleId = 1,
                     Phone = phone,
                     Name = name,
-                    Password = md5pass
+                    Password = md5pass,
+                    IsLock = false,
+                    Avatar = imageBytes,
+                    AvatarType = "image/jpeg"
                 };
 
                 _context.TbUsers.Add(user);

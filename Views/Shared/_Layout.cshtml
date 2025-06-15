@@ -12,20 +12,24 @@
     <title>@ViewBag.Title</title>
 
     <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
 
     <!-- Css Styles -->
-    <link rel="stylesheet" href="/assets/css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="/assets/css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="/assets/css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="/assets/css/themify-icons.css" type="text/css">
-    <link rel="stylesheet" href="/assets/css/nice-select.css" type="text/css">
-    <link rel="stylesheet" href="/assets/css/jquery-ui.min.css" type="text/css">
-    <link rel="stylesheet" href="/assets/css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="/assets/css/magnific-popup.css" type="text/css">
-    <link rel="stylesheet" href="/assets/css/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="/assets/css/style.css" type="text/css">
-    @* <link rel="stylesheet" href="/assets/css/swiper-bundle.min.css" type="text/css"> *@
+    <link rel="stylesheet" href="~/assets/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="~/assets/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="~/assets/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="~/assets/css/themify-icons.css" type="text/css">
+    <link rel="stylesheet" href="~/assets/css/nice-select.css" type="text/css">
+    <link rel="stylesheet" href="~/assets/css/jquery-ui.min.css" type="text/css">
+    <link rel="stylesheet" href="~/assets/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="~/assets/css/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="~/assets/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="~/assets/css/style.css" type="text/css">
+    @* <link rel="stylesheet" href="~/assets/css/swiper-bundle.min.css" type="text/css"> *@
 
 </head>
 
@@ -56,12 +60,13 @@
             @if (Functions.IsLogin())
             {
                 <div class="language-option">
-                    <img src="@Functions.useravatar" alt="">
+                     <img style="width: 30px;  height: 30px; border-radius: 100%;" src="@Images.ConvertToBase64Src(Functions.useravatar, Functions.useravatartype)"
+                                        alt="" >
                     <span>@Functions.username</span>
                     <i class="fa fa-angle-down"></i>
                     <div class="flag-dropdown">
                         <ul>
-                            <li><a asp-action="Me" asp-controller="User" >Sửa thông tin tài khoản</a></li>
+                            <li><a asp-action="Me" asp-controller="User">Sửa thông tin tài khoản</a></li>
                             <li><a asp-action="Logout" asp-controller="Login">Đăng xuất</a></li>
                         </ul>
                     </div>
@@ -76,12 +81,7 @@
         </div>
         <nav class="main-menu">
             <ul>
-                <li><a href="./index.html">Home</a></li>
-                <li><a href="./property.html">Property</a></li>
-                <li><a href="./about-us.html">Agets</a></li>
-                <li><a href="./blog.html">News</a></li>
-                <li><a href="./property-details.html">Pages</a></li>
-                <li><a href="./contact.html">Contact</a></li>
+                @await Component.InvokeAsync("Menu")
             </ul>
         </nav>
         <div class="nav-logo-right">
@@ -128,11 +128,17 @@
                             @if (Functions.IsLogin())
                             {
                                 <div class="language-option">
-                                    <img src="@Images.ConvertToBase64Src(Functions.useravatar, Functions.useravatartype)" alt="">
+                                    <img src="@Images.ConvertToBase64Src(Functions.useravatar, Functions.useravatartype)"
+                                        alt="">
                                     <span>@Functions.username</span>
                                     <i class="fa fa-angle-down"></i>
                                     <div class="flag-dropdown">
                                         <ul>
+                                            @if (Functions.userrole == 2)
+                                            {
+                                                <li><a href="/admin">Chế độ quản trị</a></li>
+                                            }
+                                            <li><a asp-action="Index" asp-controller="ListHostels">Danh sách phòng</a></li>
                                             <li><a asp-action="Me" asp-controller="User">Sửa thông tin tài khoản</a></li>
                                             <li><a asp-action="Logout" asp-controller="Login">Đăng xuất</a></li>
                                         </ul>
@@ -251,26 +257,32 @@
             <div class="copyright-text">
                 <p>
                     <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                    Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="ti-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                    Copyright &copy;
+                    <script>document.write(new Date().getFullYear());</script> All rights reserved | This template is
+                    made with <i class="ti-heart" aria-hidden="true"></i> by <a href="https://colorlib.com"
+                        target="_blank">Colorlib</a>
                     <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                 </p>
-            </div>
-        </div>
+            </div </div>
     </footer>
     <!-- Footer Section End -->
     <!-- Js Plugins -->
 
+     <script src="~/assets/js/jquery-3.3.1.min.js"></script>
 
-    <script src="/assets/js/jquery-3.6.0.min.js"></script>
-    <script src="/assets/js/swiper-bundle.min.js"></script>
-    <script src="/assets/js/bootstrap.min.js"></script>
-    <script src="/assets/js/jquery.magnific-popup.min.js"></script>
-    <script src="/assets/js/jquery.slicknav.js"></script>
-    <script src="/assets/js/jquery-ui.min.js"></script>
-    <script src="/assets/js/owl.carousel.min.js"></script>
-    <script src="/assets/js/jquery.nice-select.min.js"></script>
-    <script src="/assets/js/main.js"></script>
-    <script src="/assets/js/Address.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+
+    @* <script src="~/assets/js/swiper-bundle.min.js"></script> *@
+    <script src="~/assets/js/bootstrap.min.js"></script>
+    <script src="~/assets/js/jquery.magnific-popup.min.js"></script>
+    <script src="~/assets/js/jquery.slicknav.js"></script>
+    <script src="~/assets/js/jquery-ui.min.js"></script>
+    <script src="~/assets/js/owl.carousel.min.js"></script>
+    <script src="~/assets/js/jquery.nice-select.min.js"></script>
+    <script src="~/assets/js/main.js"></script>
+    <script src="~/assets/js/Address.js"></script>
+
     @RenderSection("Scripts", required: false)
 
 </body>
