@@ -67,7 +67,7 @@
                             <a asp-action="ChangeToHide" asp-route-id="@item.Idhostel">Ẩn trọ</a>
                         }
                         <a asp-action="Edit" asp-route-id="@item.Idhostel">Sửa</a>
-                        <a asp- asp-action="Detail" asp-route-id="@item.Idhostel">Xem</a>
+                        <a asp-controller="Hostel" asp-action="Detail" asp-route-id="@item.Idhostel">Xem</a>
                         <a asp-action="Delete" asp-route-id="@item.Idhostel">Delete</a>
                     </td>
                 </tr>

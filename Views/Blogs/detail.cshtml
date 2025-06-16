@@ -69,7 +69,7 @@
                     {
                         <div class="single-comment-item first-comment">
                             <div class="sc-author">
-                                <img src="@item.IduserNavigation.Avatar" alt="">
+                                <img src="@Images.ConvertToBase64Src(item.IduserNavigation.Avatar , item.IduserNavigation.AvatarType)" alt="">
                             </div>
                             <div class="sc-text">
                                 <span>@item.Time.Value.ToString("hh:mm dd/MM/yyyy")</span>
@@ -87,7 +87,7 @@
                                 <div class="col-lg-11 offset-lg-1">
                                     <div class="single-comment-item reply-comment">
                                         <div class="sc-author">
-                                            <img src="@items.IduserNavigation.Avatar" alt="">
+                                            <img src="@Images.ConvertToBase64Src(items.IduserNavigation.Avatar , items.IduserNavigation.AvatarType)" alt="">
                                         </div>
                                         <div class="sc-text">
                                             <span>@items.Time.Value.ToString("hh:mm dd/MM/yyyy")</span>
